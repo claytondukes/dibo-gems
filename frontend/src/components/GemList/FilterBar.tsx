@@ -15,20 +15,24 @@ import {
   Button,
   Divider,
   Text,
+  Checkbox,
 } from '@chakra-ui/react';
 import {
   SearchIcon,
   SunIcon,
   MoonIcon,
-  SettingsIcon,
   ArrowUpDownIcon,
 } from '@chakra-ui/icons';
 
 interface FilterBarProps {
   search: string;
   stars: string;
+  sortOrder: 'name-asc' | 'name-desc' | 'stars-asc' | 'stars-desc';
+  searchDesc: boolean;
   onSearchChange: (value: string) => void;
   onStarsChange: (value: string) => void;
+  onSortChange: (value: 'name-asc' | 'name-desc' | 'stars-asc' | 'stars-desc') => void;
+  onSearchDescChange: (value: boolean) => void;
   onToggleColorMode?: () => void;
   colorMode?: 'light' | 'dark';
 }
@@ -38,13 +42,27 @@ type SortOption = 'name-asc' | 'name-desc' | 'stars-asc' | 'stars-desc';
 export const FilterBar = ({
   search,
   stars,
+  sortOrder,
+  searchDesc,
   onSearchChange,
   onStarsChange,
+  onSortChange,
+  onSearchDescChange,
   onToggleColorMode,
   colorMode = 'light',
 }: FilterBarProps) => {
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
+
+  const getSortLabel = (sort: SortOption) => {
+    switch (sort) {
+      case 'name-asc': return 'Name (A-Z)';
+      case 'name-desc': return 'Name (Z-A)';
+      case 'stars-asc': return 'Stars (Low-High)';
+      case 'stars-desc': return 'Stars (High-Low)';
+      default: return 'Sort';
+    }
+  };
 
   return (
     <Box
@@ -72,6 +90,15 @@ export const FilterBar = ({
           />
         </InputGroup>
 
+        <Checkbox
+          isChecked={searchDesc}
+          onChange={(e) => onSearchDescChange(e.target.checked)}
+          colorScheme="blue"
+          size="md"
+        >
+          Search descriptions
+        </Checkbox>
+
         <Select
           value={stars}
           onChange={(e) => onStarsChange(e.target.value)}
@@ -95,15 +122,39 @@ export const FilterBar = ({
               variant="outline"
               size="md"
             >
-              Sort
+              {getSortLabel(sortOrder)}
             </MenuButton>
           </Tooltip>
           <MenuList>
-            <MenuItem command="⌘N">Name (A-Z)</MenuItem>
-            <MenuItem command="⌘⇧N">Name (Z-A)</MenuItem>
+            <MenuItem
+              command="⌘N"
+              onClick={() => onSortChange('name-asc')}
+              icon={sortOrder === 'name-asc' ? <ArrowUpDownIcon /> : undefined}
+            >
+              Name (A-Z)
+            </MenuItem>
+            <MenuItem
+              command="⌘⇧N"
+              onClick={() => onSortChange('name-desc')}
+              icon={sortOrder === 'name-desc' ? <ArrowUpDownIcon /> : undefined}
+            >
+              Name (Z-A)
+            </MenuItem>
             <Divider />
-            <MenuItem command="⌘S">Stars (Low-High)</MenuItem>
-            <MenuItem command="⌘⇧S">Stars (High-Low)</MenuItem>
+            <MenuItem
+              command="⌘S"
+              onClick={() => onSortChange('stars-asc')}
+              icon={sortOrder === 'stars-asc' ? <ArrowUpDownIcon /> : undefined}
+            >
+              Stars (Low-High)
+            </MenuItem>
+            <MenuItem
+              command="⌘⇧S"
+              onClick={() => onSortChange('stars-desc')}
+              icon={sortOrder === 'stars-desc' ? <ArrowUpDownIcon /> : undefined}
+            >
+              Stars (High-Low)
+            </MenuItem>
           </MenuList>
         </Menu>
 
@@ -115,13 +166,6 @@ export const FilterBar = ({
               aria-label="Toggle color mode"
               icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               onClick={onToggleColorMode}
-              variant="ghost"
-            />
-          </Tooltip>
-          <Tooltip label="Settings">
-            <IconButton
-              aria-label="Settings"
-              icon={<SettingsIcon />}
               variant="ghost"
             />
           </Tooltip>

@@ -35,6 +35,7 @@ function AppContent() {
   const [starFilter, setStarFilter] = useState('');
   const [selectedGem, setSelectedGem] = useState<Gem | null>(null);
   const [sortOrder, setSortOrder] = useState<'name-asc' | 'name-desc' | 'stars-asc' | 'stars-desc'>('name-asc');
+  const [searchDesc, setSearchDesc] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -53,7 +54,9 @@ function AppContent() {
 
   const filteredAndSortedGems = gems
     .filter((gem) => {
-      const matchesSearch = gem.name.toLowerCase().includes(search.toLowerCase());
+      const searchLower = search.toLowerCase();
+      const matchesSearch = gem.name.toLowerCase().includes(searchLower) ||
+        (searchDesc && gem.description.toLowerCase().includes(searchLower));
       const matchesStars = !starFilter || gem.stars.toString() === starFilter;
       return matchesSearch && matchesStars;
     })
@@ -114,8 +117,12 @@ function AppContent() {
         <FilterBar
           search={search}
           stars={starFilter}
+          sortOrder={sortOrder}
+          searchDesc={searchDesc}
           onSearchChange={setSearch}
           onStarsChange={setStarFilter}
+          onSortChange={setSortOrder}
+          onSearchDescChange={setSearchDesc}
           onToggleColorMode={toggleColorMode}
           colorMode={colorMode}
         />
