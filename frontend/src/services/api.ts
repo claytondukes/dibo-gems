@@ -13,21 +13,39 @@ const api = axios.create({
 });
 
 export const getGems = async (): Promise<GemListItem[]> => {
-  const response = await api.get('/gems');
-  return response.data;
+  try {
+    const response = await api.get('/gems');
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch gems: ${error.message}`);
+  }
 };
 
 export const getGem = async (stars: number, name: string): Promise<Gem> => {
-  const response = await api.get(`/gems/${stars}/${name}`);
-  return response.data;
+  try {
+    const response = await api.get(`/gems/${stars}/${name}`);
+    console.log('API Response for getGem:', response.data); // Add logging
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to fetch gem ${name}: ${error.message}`);
+  }
 };
 
 export const updateGem = async (stars: number, name: string, gem: Gem): Promise<Gem> => {
-  const response = await api.put(`/gems/${stars}/${name}`, gem);
-  return response.data;
+  try {
+    const response = await api.put(`/gems/${stars}/${name}`, gem);
+    return response.data;
+  } catch (error) {
+    const errorMessage = await error.response.text();
+    throw new Error(`Failed to update gem: ${errorMessage}`);
+  }
 };
 
 export const exportGems = async () => {
-  const response = await api.get('/export');
-  return response.data;
+  try {
+    const response = await api.get('/export');
+    return response.data;
+  } catch (error) {
+    throw new Error(`Failed to export gems: ${error.message}`);
+  }
 };
