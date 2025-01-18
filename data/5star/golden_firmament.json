@@ -130,5 +130,6 @@
   "synergy_categories": [
     "damage_boost",
     "defense"
-  ]
+  ],
+  "description": "Dealing damage grants you Ascendance for Ts, increasing your Evasion Rating by X% and causing you to unleash 3 blasts of wind at random nearby enemies every second, dealing X% base damage + 486 to enemies they hit. Enemies struck by multiple blasts take X% reduced damage from subsequent hits"
 }

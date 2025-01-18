@@ -99,5 +99,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Reduces the duration of loss of control effects on you by 24%. While suffering loss of control, the damage you take is reduced by 4%"
+  "max_effect": "Reduces the duration of loss of control effects on you by 24%. While suffering loss of control, the damage you take is reduced by 4%",
+  "description": "Reduces the duration of loss of control effects on you by X%"
 }

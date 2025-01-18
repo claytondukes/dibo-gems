@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Using a skill conjures 3 hellfire blazes around you to seek out enemies within 6 yards, exploding on them dealing X% base damage + 510 to all nearby enemies. Enemies struck by multiple hellfire blazes take X% additional damage from subsequent hits. Cannot occur more often than once every Cs."
 }

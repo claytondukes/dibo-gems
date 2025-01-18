@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "unleash an Aspect of Gloom that lasts Ts, during which your Primary Attacks deal X% additional AoE damage"
 }

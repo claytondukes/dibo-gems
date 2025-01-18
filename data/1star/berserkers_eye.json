@@ -123,5 +123,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases all damage you deal by X% and increases your Critical Hit Chance by X%, but also increases all damage you take by X%."
 }

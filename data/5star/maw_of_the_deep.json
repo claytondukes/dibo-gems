@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Conjures a whirlpool that pulls enemies into its center, dealing X% base damage over Ts. Additionally, the whirlpool summons a sea monster dealing X% base damage to enemies within its radius"
 }

@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your attacks have a X% chance to poison enemies, inflicting X% base damage +263 every second over 6 seconds and decreasing Movement Speed by X%. This poison spreads to nearby enemies if the victim dies. Cannot affect the same target more often than once every Cs."
 }

@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your Primary Attack forces non-Elite monsters it hits to attack you for Ts, decreasing all damage you take by X% from monsters affected by Mocking Laughter."
 }

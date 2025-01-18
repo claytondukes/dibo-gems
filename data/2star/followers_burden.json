@@ -106,5 +106,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases all damage you deal by X% for each summon you control, up to a maximum increase of X%. Additionally, your summons take X% decreased damage."
 }

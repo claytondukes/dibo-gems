@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "chance to call down meteorites, dealing X% base damage to all enemies in the area"
 }

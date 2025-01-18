@@ -123,5 +123,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you take damage, you have a X% chance to unleash retribution on all nearby enemies, dealing damage equal to X% of your current Life and decreasing all damage you take by X% for Ts. Cannot occur more often than once every Cs."
 }

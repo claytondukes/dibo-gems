@@ -104,5 +104,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you defeat an enemy, a dark beast attacks nearby enemies, dealing X% base damage +486. Cannot occur more often than once every Cs. You now have a X% chance for an additional dark beast."
 }

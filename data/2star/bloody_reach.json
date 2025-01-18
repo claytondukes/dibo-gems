@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your attacks deal X% increased damage for every 2 yards between you and the enemy hit. Maximum increase of X% at 8 yards. In addition, your attacks have a X% chance to slow enemy Movement Speed by X% for Ts."
 }

@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases the speed of your Primary Attack by X%, and the damage of your Primary Attack by X%."
 }

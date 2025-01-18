@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Decreases all melee damage you take by X% from enemies within 3 yards. Additionally, while your health is below X% you can move unhindered through enemies."
 }

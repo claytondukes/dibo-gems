@@ -214,5 +214,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you take damage, activate a Frigid Shield for Ts that Chills enemy attackers and absorbs damage equal to X% of your base damage plus 1,458. Frigid Shield also grants your attacks a X% chance to Chill enemies. Cannot gain Frigid Shield more than once every Cs."
 }

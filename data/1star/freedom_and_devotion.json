@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases the duration of your summons by X% and the damage done by your summons by X%."
 }

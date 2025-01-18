@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "You and all party members take X% reduced damage per additional party member within 6 yards of you. Each nearby party member increases damage done by all party members by X%."
 }

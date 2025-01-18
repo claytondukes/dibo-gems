@@ -126,5 +126,6 @@
   ],
   "synergy_categories": [
     "damage_boost"
-  ]
+  ],
+  "description": "Using a Dash skill increases your damage by X% and your Attack Speed by X% for Ts"
 }

@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases the duration of your Ultimate skills by X%, and the damage of your Ultimate skills by X%."
 }

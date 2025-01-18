@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "You have a X% chance when you defeat an enemy to cause other nearby enemies to flee in fear for Ts. Fleeing enemies take X% increased damage. Cannot occur more often than once every Cs."
 }

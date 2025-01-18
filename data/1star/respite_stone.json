@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Decreases all damage you take by X% for every X% your Life is below maximum, up to a maximum damage decrease of X%. Additionally, gain X% increased Armor while your life is below X%."
 }

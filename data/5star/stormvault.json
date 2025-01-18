@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Conjures a storm that deals X% base damage per second to enemies within its radius. Additionally, lightning strikes periodically hit enemies, dealing X% base damage"
 }

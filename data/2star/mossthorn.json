@@ -105,5 +105,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Taking damage activates Mossthorn for 6 seconds. While active, each attack you receive triggers a retaliatory piercing thorn (no more than once every 0.5 seconds), dealing 50% base damage + 201 to enemies. Cannot activate more often than once every 20 seconds. While Mossthorn is active, damage you take is reduced by 8%"
+  "max_effect": "Taking damage activates Mossthorn for 6 seconds. While active, each attack you receive triggers a retaliatory piercing thorn (no more than once every 0.5 seconds), dealing 50% base damage + 201 to enemies. Cannot activate more often than once every 20 seconds. While Mossthorn is active, damage you take is reduced by 8%",
+  "description": "Taking damage activates Mossthorn for Ts. While active, each attack you receive triggers a retaliatory piercing thorn (no more than once every Ts), dealing X% base damage + 201 to enemies. While Mossthorn is active, damage you take is reduced by X%"
 }

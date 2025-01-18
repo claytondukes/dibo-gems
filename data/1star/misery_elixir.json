@@ -124,5 +124,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Duration of harmful effects you apply is increased by X%. Affected enemies take X% increased damage"
 }

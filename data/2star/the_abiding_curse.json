@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your attacks have a X% chance to curse enemies, reducing their Attack and Movement speeds by X% for Ts. Cursed enemies also take X% increased damage from your attacks. Cannot curse the same target more than once every Cs."
 }

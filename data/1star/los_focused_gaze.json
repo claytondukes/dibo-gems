@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases damage done by your Charge skills by X%, Charging speed increased by X%"
 }
