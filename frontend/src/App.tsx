@@ -39,7 +39,7 @@ function AppContent() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const { data: gems = [], isLoading, error } = useQuery<GemListItem[]>('gems', getGems);
+  const { data: gems = [], isLoading, error } = useQuery<GemListItem[], Error>('gems', getGems);
 
   const updateGemMutation = useMutation(
     ({ stars, name, gem }: { stars: number; name: string; gem: Gem }) =>
@@ -139,7 +139,7 @@ function AppContent() {
                   <Skeleton key={i} height="200px" borderRadius="lg" />
                 ))
             : error
-            ? <Box>Error loading gems: {error.message}</Box>
+            ? <Box>Error loading gems: {error instanceof Error ? error.message : 'Unknown error'}</Box>
             : filteredAndSortedGems.map((gem) => (
                 <GemCard
                   key={`${gem.stars}-${gem.name}`}
