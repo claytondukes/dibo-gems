@@ -10,13 +10,13 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage conjures 5 flying swords to follow you for 10 seconds, during which using a skill consumes a flying sword to create a Sword Rain at a random enemy location, dealing 50% base damage +506 to nearby enemies",
           "conditions": [
-            "on_damage_dealt",
-            "on_skill_use",
             "cooldown_restriction"
-          ]
+          ],
+          "value": 50.0,
+          "duration": 10.0
         },
         {
           "type": "stat_effect",
@@ -37,7 +37,7 @@
     "2": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -46,7 +46,7 @@
     "3": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -55,7 +55,7 @@
     "4": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -64,7 +64,7 @@
     "5": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -73,7 +73,7 @@
     "6": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -82,7 +82,7 @@
     "7": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -91,7 +91,7 @@
     "8": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -100,7 +100,7 @@
     "9": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -109,7 +109,7 @@
     "10": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }

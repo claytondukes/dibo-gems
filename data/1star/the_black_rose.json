@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "summon_effect",
           "description": "chance to summon vines that Immobilize the attacker for 1",
           "conditions": []
         },
@@ -19,7 +19,7 @@
           "conditions": []
         },
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize the attacker for 1",
           "conditions": []
         }
@@ -28,7 +28,7 @@
     "10": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize duration increased to 3",
           "conditions": []
         }
@@ -37,7 +37,7 @@
     "2": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize duration increased to 1",
           "conditions": []
         }
@@ -46,7 +46,7 @@
     "3": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "summon_effect",
           "description": "Chance to summon vines increased to 13",
           "conditions": []
         },
@@ -60,7 +60,7 @@
     "4": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize duration increased to 1",
           "conditions": []
         }
@@ -69,21 +69,23 @@
     "5": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "summon_effect",
           "description": "Chance to summon vines increased to 17%",
-          "conditions": []
+          "conditions": [],
+          "value": 17.0
         },
         {
           "type": "summon_effect",
           "description": "summon vines increased to 17%",
-          "conditions": []
+          "conditions": [],
+          "value": 17.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize duration increased to 2",
           "conditions": []
         }
@@ -92,7 +94,7 @@
     "7": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "summon_effect",
           "description": "Chance to summon vines increased to 20",
           "conditions": []
         },
@@ -106,7 +108,7 @@
     "8": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Immobilize duration increased to 2",
           "conditions": []
         }
@@ -115,7 +117,7 @@
     "9": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "summon_effect",
           "description": "Chance to summon vines increased to 24",
           "conditions": []
         },

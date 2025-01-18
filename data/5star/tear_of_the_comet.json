@@ -9,92 +9,100 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Every second you maintain a Channeled skill, you launch 2 arcane missiles that deal 10% base damage + 120 to random enemies",
-          "conditions": [
-            "on_channel"
-          ]
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 12% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 12.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Arcane missiles have a 10% chance to explode on impact, dealing 50% of their damage to nearby enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 15% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 15.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Arcane missiles have a 20% chance to explode on impact, dealing 50% of their damage to nearby enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 20% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Arcane missiles have a 30% chance to explode on impact, dealing 50% of their damage to nearby enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 30.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 25% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 25.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Arcane missiles have a 40% chance to explode on impact, dealing 50% of their damage to nearby enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 40.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 30% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 30.0
         }
       ]
     }

@@ -9,16 +9,19 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "You have a 10% chance when you defeat an enemy to cause other nearby enemies to flee in fear for 0.80 seconds. Cannot occur more often than once every 20 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0,
+          "duration": 0.8,
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "Fear duration increased to 2.40 seconds",
           "conditions": []
         }
@@ -27,7 +30,7 @@
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "Fear duration increased to 1.00 seconds",
           "conditions": []
         }
@@ -36,16 +39,17 @@
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to targets afflicted with Fear by 2%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "Fear duration increased to 1.20 seconds",
           "conditions": []
         }
@@ -54,16 +58,17 @@
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to targets afflicted with Fear by 4%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "Fear duration increased to 1.60 seconds",
           "conditions": []
         }
@@ -72,16 +77,17 @@
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to targets afflicted with Fear by 6%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "Fear duration increased to 2.00 seconds",
           "conditions": []
         }
@@ -90,9 +96,10 @@
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to targets afflicted with Fear by 8%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     }

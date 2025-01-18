@@ -18,81 +18,90 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 18.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 18.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 8.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to Elite monsters by 1%",
-          "conditions": []
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 10.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to Elite monsters by 2%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 12.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 12.5
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to Elite monsters by 3%",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 15.25%",
-          "conditions": []
+          "conditions": [],
+          "value": 15.25
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases all damage you deal to Elite monsters by 4%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0
         }
       ]
     }

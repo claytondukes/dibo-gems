@@ -9,90 +9,100 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "debuff_effect",
           "description": "Decreases all melee damage you take by 8.00% from enemies within 3 yards",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage decrease increased to 24%",
-          "conditions": []
+          "conditions": [],
+          "value": 24.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage decrease increased to 10.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "You move unhindered through enemies while your Life is below 15%",
-          "conditions": []
+          "conditions": [],
+          "value": 15.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage decrease increased to 13.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.5
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "You move unhindered through enemies while your Life is below 30%",
-          "conditions": []
+          "conditions": [],
+          "value": 30.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage decrease increased to 17.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 17.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "You move unhindered through enemies while your Life is below 45%",
-          "conditions": []
+          "conditions": [],
+          "value": 45.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage decrease increased to 20.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 20.5
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "utility_effect",
           "description": "You move unhindered through enemies while your Life is below 60%",
-          "conditions": []
+          "conditions": [],
+          "value": 60.0
         }
       ]
     }

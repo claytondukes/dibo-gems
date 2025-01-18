@@ -13,106 +13,117 @@
           "description": "chance to poison enemies, inflicting 25% base damage + 263 every second for 6 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 25.0,
+          "duration": 6.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 65% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 65.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 30% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 30.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "This poison also decreases enemy movement speed by 6%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 35% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 35.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "This poison also decreases enemy movement speed by 12%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 12.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 45% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 45.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "This poison also decreases enemy movement speed by 18%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 18.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 55% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 55.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "This poison also decreases enemy movement speed by 24%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 24.0
         }
       ]
     }

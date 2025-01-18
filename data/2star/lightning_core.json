@@ -9,110 +9,125 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Primary Attacks and movement slowly charge you up with electricity. When fully-charged, your next Primary Attack will release chain lightning, dealing 90% base damage + 1134 to nearby enemies. Cannot occur more often than once every 20 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 90.0,
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 280% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 280.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 120% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 120.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases all damage you deal by 3% for 3 seconds after calling chain lightning",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 3.0,
+          "duration": 3.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 150% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 150.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases all damage you deal by 6% for 3 seconds after calling chain lightning",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.0,
+          "duration": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 190% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 190.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases all damage you deal by 9% for 3 seconds after calling chain lightning",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 9.0,
+          "duration": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 235% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 235.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases all damage you deal by 12% for 3 seconds after calling chain lightning",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 12.0,
+          "duration": 3.0
         }
       ]
     }

@@ -9,110 +9,120 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 8.00% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 8.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 24.00% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 24.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 10.50% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 10.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 0.5% while using a Channel skill",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 0.5
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 13.50% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 13.5
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 1.0% while using a Channel skill",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 1.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 17.00% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 17.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 1.5% while using a Channel skill",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 1.5
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Channeled skills consume energy 20.50% slower",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 20.5
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 2% while using a Channel skill",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 2.0
         }
       ]
     }

@@ -9,208 +9,177 @@
     "1": {
       "effects": [
         {
-          "type": "buff_effect",
+          "type": "shield_effect",
           "description": "gain Frigid Shield more often than once every 20 seconds",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "cooldown": 20.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield for 6 seconds that Chills enemy attackers and absorbs damage equal to 150% of your base damage + 1458",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 150.0,
+          "duration": 6.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield more often than once every 20 seconds",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 360%",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 360.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 180%",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 180.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "utility_effect",
           "description": "chance to chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         },
         {
           "type": "buff_effect",
           "description": "grants your attacks at 15% chance to chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 15.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield grants your attacks at 15% chance to chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 15.0
         },
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 220%",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 220.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "utility_effect",
           "description": "chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         },
         {
           "type": "buff_effect",
           "description": "grants your attacks a 30% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 30.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield grants your attacks a 30% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 30.0
         },
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 260%",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 260.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "utility_effect",
           "description": "chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         },
         {
           "type": "buff_effect",
           "description": "grants your attacks a 45% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 45.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield grants your attacks a 45% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 45.0
         },
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 310%",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 310.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "utility_effect",
           "description": "chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         },
         {
           "type": "buff_effect",
           "description": "grants your attacks a 60% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 60.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "Shield also grants your attacks a 60% chance to Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 60.0
         },
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Chill enemies",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": []
         }
       ]
     }

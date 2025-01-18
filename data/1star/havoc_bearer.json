@@ -15,7 +15,10 @@
           "conditions": [
             "on_dash",
             "cooldown_restriction"
-          ]
+          ],
+          "value": 0.0,
+          "duration": 2.0,
+          "cooldown": 6.0
         },
         {
           "type": "stat_effect",
@@ -36,7 +39,7 @@
     "2": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -45,7 +48,7 @@
     "3": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -54,7 +57,7 @@
     "4": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -63,7 +66,7 @@
     "5": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -72,7 +75,7 @@
     "6": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -81,7 +84,7 @@
     "7": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -90,7 +93,7 @@
     "8": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -99,7 +102,7 @@
     "9": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -113,7 +116,9 @@
           "conditions": [
             "on_dash",
             "cooldown_restriction"
-          ]
+          ],
+          "value": 18.0,
+          "duration": 2.0
         }
       ]
     }

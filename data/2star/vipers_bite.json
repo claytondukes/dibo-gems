@@ -9,18 +9,22 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Inflicts Viper's Venom dealing 16% base damage + 120 every second for 6 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0,
+          "duration": 6.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Your attacks poison enemies, dealing 32% base damage + 480 every second for 6 seconds. Additionally, poisoned enemies have their Attack Speed reduced by 10%",
-          "conditions": []
+          "conditions": [],
+          "value": 32.0,
+          "duration": 6.0
         }
       ]
     }

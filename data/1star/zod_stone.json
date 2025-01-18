@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases the duration of your Ultimate Skills by 16",
           "conditions": [
             "on_attack"
@@ -20,29 +20,31 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Duration bonus increased to 48.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 48.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Duration bonus increased to 20.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 20.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage done by your Ultimate Skills by 1",
           "conditions": [
             "on_attack"
@@ -53,40 +55,43 @@
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Duration bonus increased to 24.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 24.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage done by your Ultimate Skills by 3%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Duration bonus increased to 32.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 32.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage done by your Ultimate Skills by 4",
           "conditions": [
             "on_attack"
@@ -97,22 +102,24 @@
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Duration bonus increased to 40.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 40.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage done by your Ultimate Skills by 6%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.0
         }
       ]
     }

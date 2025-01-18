@@ -9,115 +9,132 @@
     "1": {
       "effects": [
         {
-          "type": "buff_effect",
+          "type": "shield_effect",
           "description": "grants a shield for 6 seconds that absorbs damage equal to 450% of your base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 450.0,
+          "duration": 6.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "shield for 6 seconds that absorbs damage equal to 450% of your base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 450.0,
+          "duration": 6.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 1050%",
-          "conditions": []
+          "conditions": [],
+          "value": 1050.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 530%",
-          "conditions": []
+          "conditions": [],
+          "value": 530.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "shield expires, heal for 20% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         },
         {
-          "type": "healing_effect",
+          "type": "utility_effect",
           "description": "heal for 20% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 660%",
-          "conditions": []
+          "conditions": [],
+          "value": 660.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "shield expires, heal for 40% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 40.0
         },
         {
-          "type": "healing_effect",
+          "type": "utility_effect",
           "description": "heal for 40% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 40.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 790%",
-          "conditions": []
+          "conditions": [],
+          "value": 790.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "shield expires, heal for 60% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 60.0
         },
         {
-          "type": "healing_effect",
+          "type": "utility_effect",
           "description": "heal for 60% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 60.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb value increased to 920%",
-          "conditions": []
+          "conditions": [],
+          "value": 920.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "shield expires, heal for 80% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 80.0
         },
         {
-          "type": "healing_effect",
+          "type": "utility_effect",
           "description": "heal for 80% of the remaining value",
-          "conditions": []
+          "conditions": [],
+          "value": 80.0
         }
       ]
     }

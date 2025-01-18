@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "summon_effect",
           "description": "Increases the duration of your summons by 8",
           "conditions": []
         }
@@ -18,25 +18,27 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Summons duration increased by 24.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 24.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Summons duration increased by 10.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "summon_effect",
           "description": "Increases the damage of your summons by 0",
           "conditions": []
         }
@@ -45,16 +47,17 @@
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Summons duration increased by 13.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "summon_effect",
           "description": "Increases the damage of your summons by 1",
           "conditions": []
         }
@@ -63,16 +66,17 @@
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Summons duration increased by 16.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "summon_effect",
           "description": "Increases the damage of your summons by 2",
           "conditions": []
         }
@@ -81,18 +85,20 @@
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Summons duration increased by 20.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases the damage of your summons by 3%",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     }
