@@ -1,0 +1,6 @@
+{
+  "public": "dist",
+  "cleanUrls": true,
+  "single": true,
+  "port": "${FRONTEND_PORT}"
+}
