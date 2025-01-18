@@ -4,7 +4,7 @@ import { Gem, GemListItem } from '../types/gem';
 // Determine the API URL based on the current window location
 const API_URL = window.location.hostname === 'localhost' 
   ? 'http://localhost:8000'
-  : `http://${window.location.hostname}:8000`;
+  : 'https://gemapi.dukes.io';
 
 console.log('API URL:', API_URL);
 
