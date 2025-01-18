@@ -9,28 +9,32 @@
     "1": {
       "effects": [
         {
-          "type": "buff_effect",
+          "type": "shield_effect",
           "description": "gain an absorb shield equal to 160% of your base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 160.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb shield equal to 160% of your base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 160.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "buff_effect",
+          "type": "shield_effect",
           "description": "gain an absorb shield equal to 200% of your base damage while the effect is active",
-          "conditions": []
+          "conditions": [],
+          "value": 200.0
         },
         {
-          "type": "defensive_effect",
+          "type": "shield_effect",
           "description": "absorb shield equal to 200% of your base damage while the effect is active",
-          "conditions": []
+          "conditions": [],
+          "value": 200.0
         }
       ]
     }

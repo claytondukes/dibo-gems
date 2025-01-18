@@ -9,117 +9,128 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases all damage you deal by 5%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 5.0
         },
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "increases all damage you take by 5%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 5.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased by up to 6.50%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Critical Hit Chance increased by 0.5%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 0.5
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased by up to 8.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 8.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Critical Hit Chance increased by 1%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 1.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased by up to 10.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 10.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Critical Hit Chance increased by 1.5%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 1.5
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased by up to 13.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 13.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Critical Hit Chance increased by 2%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 2.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased by up to 16.00%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 16.0
         }
       ]
     }

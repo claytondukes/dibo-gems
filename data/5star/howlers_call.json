@@ -13,29 +13,32 @@
           "description": "chance to conjure a charging spirit wolf that inflicts 150% base damage + 1458 to all enemies in its path",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 150.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased to 360%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 360.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased to 180%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 180.0
         }
       ]
     },
@@ -46,25 +49,28 @@
           "description": "chance to Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         },
         {
-          "type": "control_effect",
+          "type": "proc_effect",
           "description": "Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased to 220%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 220.0
         }
       ]
     },
@@ -75,25 +81,28 @@
           "description": "chance to Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         },
         {
-          "type": "control_effect",
+          "type": "proc_effect",
           "description": "Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased to 260%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 260.0
         }
       ]
     },
@@ -104,25 +113,28 @@
           "description": "chance to Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         },
         {
-          "type": "control_effect",
+          "type": "proc_effect",
           "description": "Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage increased to 310%",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 310.0
         }
       ]
     },
@@ -133,14 +145,16 @@
           "description": "chance to Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         },
         {
-          "type": "control_effect",
+          "type": "proc_effect",
           "description": "Stun enemies for 3 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 3.0
         }
       ]
     }

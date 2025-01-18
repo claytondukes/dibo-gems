@@ -10,65 +10,57 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 6%",
-          "conditions": [
-            "skill_damage"
-          ]
+          "conditions": [],
+          "value": 6.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 8%",
-          "conditions": [
-            "skill_damage"
-          ]
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 8%. Increases Skill Attack Speed by 1%",
-          "conditions": [
-            "skill_damage",
-            "attack_speed"
-          ]
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 10%. Increases Skill Attack Speed by 1%",
-          "conditions": [
-            "skill_damage",
-            "attack_speed"
-          ]
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 10%. Increases Skill Attack Speed by 2%",
-          "conditions": [
-            "skill_damage",
-            "attack_speed"
-          ]
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -77,7 +69,7 @@
     "7": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -86,7 +78,7 @@
     "8": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -95,7 +87,7 @@
     "9": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -104,12 +96,10 @@
     "10": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Increases Skill damage by 18%. Increases Skill Attack Speed by 4%",
-          "conditions": [
-            "skill_damage",
-            "attack_speed"
-          ]
+          "conditions": [],
+          "value": 18.0
         },
         {
           "type": "stat_effect",

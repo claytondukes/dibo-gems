@@ -14,50 +14,57 @@
           "conditions": [
             "on_damage_taken",
             "cooldown_restriction"
-          ]
+          ],
+          "value": 17.0,
+          "duration": 6.0,
+          "cooldown": 0.5
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Retaliatory thorn damage increased to 22% base damage + 201",
-          "conditions": []
+          "conditions": [],
+          "value": 22.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "While Mossthorn is active, damage you take is reduced by 2%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Retaliatory thorn damage increased to 28% base damage + 201",
-          "conditions": []
+          "conditions": [],
+          "value": 28.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "While Mossthorn is active, damage you take is reduced by 4%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -66,7 +73,7 @@
     "7": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -75,7 +82,7 @@
     "8": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -84,7 +91,7 @@
     "9": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -98,7 +105,10 @@
           "conditions": [
             "on_damage_taken",
             "cooldown_restriction"
-          ]
+          ],
+          "value": 50.0,
+          "duration": 6.0,
+          "cooldown": 0.5
         }
       ]
     }

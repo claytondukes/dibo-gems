@@ -12,32 +12,55 @@ const api = axios.create({
   withCredentials: true,
 });
 
+// Convert a string to snake_case
+const toSnakeCase = (str: string): string => {
+  return str
+    .toLowerCase()
+    .replace(/[']/g, '') // Remove apostrophes
+    .replace(/[-\s]+/g, '_'); // Replace hyphens and spaces with underscore
+};
+
 export const getGems = async (): Promise<GemListItem[]> => {
   try {
     const response = await api.get('/gems');
     return response.data;
   } catch (error) {
+    console.error('Error fetching gems:', error);
     throw new Error(`Failed to fetch gems: ${error.message}`);
   }
 };
 
 export const getGem = async (stars: number, name: string): Promise<Gem> => {
   try {
-    const response = await api.get(`/gems/${stars}/${name}`);
-    console.log('API Response for getGem:', response.data); // Add logging
+    const fileName = toSnakeCase(name);
+    const filePath = `${stars}star/${fileName}.json`;
+    const response = await api.get(`/gems/${filePath}`);
     return response.data;
   } catch (error) {
-    throw new Error(`Failed to fetch gem ${name}: ${error.message}`);
+    console.error('Error fetching gem:', error);
+    throw new Error(`Failed to fetch gem: ${error.message}`);
   }
 };
 
 export const updateGem = async (stars: number, name: string, gem: Gem): Promise<Gem> => {
   try {
-    const response = await api.put(`/gems/${stars}/${name}`, gem);
+    const fileName = toSnakeCase(name);
+    const filePath = `${stars}star/${fileName}.json`;
+    const response = await api.put(`/gems/${filePath}`, gem);
     return response.data;
   } catch (error) {
-    const errorMessage = await error.response.text();
-    throw new Error(`Failed to update gem: ${errorMessage}`);
+    console.error('Error updating gem:', error);
+    throw new Error(`Failed to update gem: ${error.message}`);
+  }
+};
+
+export const getEffectTypes = async () => {
+  try {
+    const response = await api.get('/effect-types');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching effect types:', error);
+    throw new Error(`Failed to fetch effect types: ${error.message}`);
   }
 };
 
@@ -46,6 +69,7 @@ export const exportGems = async () => {
     const response = await api.get('/export');
     return response.data;
   } catch (error) {
+    console.error('Error exporting gems:', error);
     throw new Error(`Failed to export gems: ${error.message}`);
   }
 };

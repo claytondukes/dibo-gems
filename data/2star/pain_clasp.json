@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage dealt by 8",
           "conditions": [
             "on_attack"
@@ -20,11 +20,12 @@
     "10": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "proc_effect",
           "description": "Increases damage dealt by 16% to enemies suffering from a continuous damage effect",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 16.0
         }
       ]
     }

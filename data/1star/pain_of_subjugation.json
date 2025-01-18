@@ -9,90 +9,100 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "You deal 5.5% increased damage to enemies suffering loss of control",
-          "conditions": []
+          "conditions": [],
+          "value": 5.5
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 16.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 6.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Decreases all damage you take by 1% while suffering loss of control of your character",
-          "conditions": []
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 8.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Decreases all damage you take by 2% while suffering loss of control of your character",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 10.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Decreases all damage you take by 3% while suffering loss of control of your character",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 13.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Decreases all damage you take by 4% while suffering loss of control of your character",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0
         }
       ]
     }

@@ -9,73 +9,82 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "When you defeat an enemy you trigger a volatile explosion dealing 30% base damage + 365 to all nearby enemies. Cannot occur more often than once every 6 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 30.0,
+          "cooldown": 6.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 90% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 90.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 40% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 40.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased by 2% for 2 seconds after an explosion occurs",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 2.0,
+          "duration": 2.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 50% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 50.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased by 4% for 2 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 4.0,
+          "duration": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Unknown",
           "conditions": [
             "on_attack"
@@ -86,33 +95,38 @@
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased by 6% for 2 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.0,
+          "duration": 2.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 75% of base damage",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 75.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Damage is increased to 8% for 2 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 8.0,
+          "duration": 2.0
         }
       ]
     }

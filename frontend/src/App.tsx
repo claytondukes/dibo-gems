@@ -76,7 +76,6 @@ function AppContent() {
     try {
       const fullGem = await getGem(gem.stars, gem.name);
       if (fullGem) {
-        console.log('Loaded gem for editing:', fullGem); 
         setSelectedGem(fullGem);
         onOpen();
       }
@@ -95,8 +94,6 @@ function AppContent() {
         name: gem.name,
         gem,
       });
-      
-      // Invalidate both queries to refresh the data
       queryClient.invalidateQueries('gems');
       onClose();
     } catch (error) {

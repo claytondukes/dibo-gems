@@ -6,6 +6,8 @@ import json
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from models.gem import Gem, GemListItem
+from models.gem_types import GemEffectType
 
 # Load environment variables
 load_dotenv()
@@ -27,7 +29,7 @@ app.add_middleware(
 )
 
 # Data directory path from environment variable
-DATA_DIR = Path(os.getenv("DATA_DIR", Path(__file__).parent.parent / "data"))
+DATA_DIR = Path(os.getenv("DATA_DIR", os.path.join(os.path.dirname(__file__), "..", "data")))
 
 class Effect(BaseModel):
     """Represents a gem effect with its type, description, and conditions."""
@@ -69,6 +71,7 @@ class Gem(BaseModel):
     stars: str = Field(..., description="Star rating of the gem")
     description: str = Field(default="", description="Description of the gem")
     ranks: Dict[str, Rank] = Field(..., description="Ranks and their effects")
+    file_path: str = Field(..., description="Path to the gem's JSON file")
     
     class Config:
         extra = "allow"
@@ -84,196 +87,93 @@ class GemListItem(BaseModel):
     class Config:
         extra = "allow"
 
-def load_gem(file_path: Path) -> Dict:
-    """Load a gem from a JSON file.
-    
-    Args:
-        file_path: Path to the JSON file
-        
-    Returns:
-        Dictionary containing gem information
-        
-    Raises:
-        HTTPException: If there's an error reading or parsing the file
-    """
+def convert_to_snake_case(s: str) -> str:
+    """Convert a string to snake_case."""
+    s = s.lower().replace(" ", "_").replace("'", "").replace("&", "and")
+    return ''.join(c for c in s if c.isalnum() or c == '_')
+
+def load_gem(file_path: Path) -> Gem:
+    """Load a gem from a JSON file."""
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path) as f:
             data = json.load(f)
-            # Ensure description exists
-            if 'description' not in data:
-                data['description'] = ''
-            return data
-    except json.JSONDecodeError as e:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid JSON in {file_path.name}: {str(e)}"
-        )
+            data['file_path'] = str(file_path.relative_to(DATA_DIR))
+            return Gem.model_validate(data)
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error reading {file_path.name}: {str(e)}"
-        )
+        raise HTTPException(status_code=404, detail=f"Error loading gem: {str(e)}")
 
-def save_gem(file_path: Path, gem_data: Dict) -> None:
-    """Save a gem to a JSON file.
-    
-    Args:
-        file_path: Path where to save the JSON file
-        gem_data: Dictionary containing the gem data
-        
-    Raises:
-        HTTPException: If validation fails or write error occurs
-    """
+def save_gem(file_path: Path, gem: Gem) -> None:
+    """Save a gem to a JSON file."""
     try:
-        # Validate data against Gem model
-        Gem.model_validate(gem_data)
-        
-        # Ensure directory exists
-        file_path.parent.mkdir(parents=True, exist_ok=True)
-        
+        # Remove file_path before saving to JSON
+        data = gem.model_dump()
+        data.pop('file_path', None)
         with open(file_path, 'w') as f:
-            json.dump(gem_data, f, indent=2)
+            json.dump(data, f, indent=2)
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error saving gem {file_path.name}: {str(e)}"
-        )
-
-def convert_to_snake_case(name: str) -> str:
-    """Convert a string to snake case.
-    
-    Args:
-        name: String to convert
-        
-    Returns:
-        Snake case version of the string
-        
-    Examples:
-        >>> convert_to_snake_case("Blood-Soaked Jade")
-        'blood_soaked_jade'
-        >>> convert_to_snake_case("Berserker's Eye")
-        'berserkers_eye'
-    """
-    # Remove apostrophes first
-    name = name.replace("'", "")
-    # Replace hyphens with spaces
-    name = name.replace('-', ' ')
-    # Convert to lowercase and replace spaces with underscores
-    return name.lower().replace(' ', '_')
+        raise HTTPException(status_code=500, detail=f"Error saving gem: {str(e)}")
 
 @app.get("/gems", response_model=List[GemListItem])
-async def list_gems():
-    """List all gems with their basic information.
+def list_gems() -> List[GemListItem]:
+    """List all gems with their basic information."""
+    gems = []
     
-    Returns:
-        List of dictionaries containing basic gem information
-        
-    Raises:
-        HTTPException: If there's an error reading the data directory
-    """
-    try:
-        gems = []
-        for star_dir in DATA_DIR.iterdir():
-            if not star_dir.is_dir() or not star_dir.name.endswith('star'):
-                continue
-                
-            for gem_file in star_dir.glob('*.json'):
-                try:
-                    with open(gem_file, 'r') as f:
-                        data = json.load(f)
-                        # Extract main effects from rank 1
-                        main_effects = []
-                        if data.get('ranks') and data['ranks'].get('1'):
-                            for effect in data['ranks']['1'].get('effects', []):
-                                main_effects.append(effect.get('description', ''))
+    for star_dir in ["1star", "2star", "5star"]:
+        star_path = DATA_DIR / star_dir
+        if not star_path.exists():
+            continue
+            
+        for file_path in star_path.glob("*.json"):
+            try:
+                gem = load_gem(file_path)
+                effects = []
+                for effect in gem.ranks["1"].effects:
+                    # Skip resonance and combat rating effects
+                    if any(cond in effect.conditions for cond in ['resonance', 'combat_rating']):
+                        continue
+                    effects.append(effect.description)
                         
-                        gems.append(GemListItem(
-                            name=data['name'],
-                            stars=int(star_dir.name[0]),  # Extract star rating from directory name
-                            description=data.get('description', ''),
-                            effects=main_effects,
-                            file_path=str(gem_file.relative_to(DATA_DIR))
-                        ))
-                except (json.JSONDecodeError, KeyError) as e:
-                    print(f"Error reading {gem_file}: {e}")
-                    continue
-                    
-        return sorted(gems, key=lambda x: (x.stars, x.name))
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Failed to list gems: {str(e)}"
-        )
+                gems.append(GemListItem(
+                    name=gem.name,
+                    stars=int(gem.stars),
+                    description=gem.description,
+                    effects=effects,
+                    file_path=str(file_path.relative_to(DATA_DIR))
+                ))
+            except Exception as e:
+                print(f"Error loading {file_path}: {e}")
+                
+    return sorted(gems, key=lambda g: (g.stars, g.name))
 
-@app.get("/gems/{star_rating}/{gem_name}", response_model=Gem)
-async def get_gem(star_rating: int, gem_name: str) -> Dict:
-    """Get detailed information about a specific gem.
-    
-    Args:
-        star_rating: Number of stars (1, 2, or 5)
-        gem_name: Name of the gem
-        
-    Returns:
-        Dictionary containing gem information
-        
-    Raises:
-        HTTPException: If gem is not found or there's an error reading the file
-    """
-    try:
-        # Convert the URL-decoded name to snake case
-        file_name = f"{convert_to_snake_case(gem_name)}.json"
-        file_path = DATA_DIR / f"{star_rating}star" / file_name
-        
-        if not file_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail=f"Gem not found: {gem_name} ({star_rating} stars)"
-            )
-            
-        return load_gem(file_path)
-    except Exception as e:
-        if isinstance(e, HTTPException):
-            raise e
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error loading gem {gem_name}: {str(e)}"
-        )
+@app.get("/gems/{gem_path:path}", response_model=Gem)
+def get_gem(gem_path: str) -> Gem:
+    """Get a specific gem by its path."""
+    file_path = DATA_DIR / gem_path
+    return load_gem(file_path)
 
-@app.put("/gems/{star_rating}/{gem_name}", response_model=Gem)
-async def update_gem(star_rating: int, gem_name: str, gem: Gem) -> Dict:
-    """Update a specific gem's information.
-    
-    Args:
-        star_rating: Number of stars (1, 2, or 5)
-        gem_name: Name of the gem
-        gem: Updated gem data
-        
-    Returns:
-        Updated gem information
-        
-    Raises:
-        HTTPException: If there's an error saving the file
-    """
-    try:
-        # Convert the URL-decoded name to snake case
-        file_name = f"{convert_to_snake_case(gem_name)}.json"
-        file_path = DATA_DIR / f"{star_rating}star" / file_name
-        
-        if not file_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail=f"Gem not found: {gem_name} ({star_rating} stars)"
-            )
-            
-        save_gem(file_path, gem.dict())
-        return gem
-    except Exception as e:
-        if isinstance(e, HTTPException):
-            raise e
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error updating gem {gem_name}: {str(e)}"
-        )
+@app.put("/gems/{gem_path:path}", response_model=Gem)
+def update_gem(gem_path: str, gem: Gem) -> Gem:
+    """Update a specific gem."""
+    file_path = DATA_DIR / gem_path
+    save_gem(file_path, gem)
+    return gem
+
+@app.get("/effect-types")
+def get_effect_types() -> Dict[str, List[str]]:
+    """Get all effect types and their descriptions."""
+    return {
+        "types": [e.value for e in GemEffectType],
+        "descriptions": [
+            "Triggered effects (e.g., on attack, on dash)",
+            "Passive stat bonuses",
+            "Direct damage effects",
+            "Positive effects on self/allies",
+            "Negative effects on enemies",
+            "Defensive/absorb effects",
+            "Summon temporary allies/effects",
+            "Misc utility effects"
+        ]
+    }
 
 @app.get("/export", response_model=Dict[str, Dict[str, Gem]])
 async def export_gems():

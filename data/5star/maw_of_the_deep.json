@@ -9,18 +9,20 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "summon_effect",
           "description": "Creates whirlpool that pulls enemies, sea monster erupts for 140% base damage + 1701",
-          "conditions": []
+          "conditions": [],
+          "value": 140.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Conjures a whirlpool that pulls enemies into its center, dealing 200% base damage over 3 seconds. Additionally, the whirlpool summons a sea monster dealing 400% base damage to enemies within its radius",
-          "conditions": []
+          "conditions": [],
+          "value": 200.0
         }
       ]
     }

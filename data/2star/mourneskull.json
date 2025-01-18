@@ -10,130 +10,140 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 7%, up to a maximum of 14% if at least 3 enemies were drained. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 7.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 9%, up to a maximum of 18% if at least 3 enemies were drained. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 9.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 9%, up to a maximum of 18% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 3% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 9.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 11%, up to a maximum of 22% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 3% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 11.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 11%, up to a maximum of 22% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 6% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 11.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 13%, up to a maximum of 26% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 6% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 13.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 13%, up to a maximum of 26% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 9% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 13.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 15%, up to a maximum of 30% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 9% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 15.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 15%, up to a maximum of 30% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 12% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 15.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for 6 seconds, increasing all damage you deal by 18%, up to a maximum of 36% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing 12% base damage to all enemies near their target. Cannot occur more often than once every 20 seconds",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "enemy_count_scaling"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 18.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     }

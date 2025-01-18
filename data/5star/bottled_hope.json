@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "increase the damage and Movement Speed of the target by 8",
           "conditions": []
         }
@@ -18,81 +18,90 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage and Movement Speed bonuses increased to 24.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 24.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage and Movement Speed bonsuses increased to 10.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "debuff_effect",
           "description": "Decreases the cooldown on all your skills by 1.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 1.5
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage and Movement Speed bonuses increased to 13.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.5
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "debuff_effect",
           "description": "Decreases the cooldown on all your skills by 3%",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage and Movement Speed bonuses increased to 17.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 17.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "debuff_effect",
           "description": "Decreases the cooldown on all your skills by 4.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.5
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage and Movement Speed bonuses increased to 20.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 20.5
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "debuff_effect",
           "description": "Decreases the cooldown on all your skills by 6%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     }

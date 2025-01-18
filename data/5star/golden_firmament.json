@@ -10,13 +10,13 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage grants you Ascendance for 6 seconds, causing you to unleash 3 blasts of wind at random nearby enemies every second, dealing 45% base damage + 486 to enemies they hit. Enemies struck by multiple blasts take 75% reduced damage from subsequent hits",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "damage_reduction_stacking"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 45.0,
+          "duration": 6.0
         },
         {
           "type": "stat_effect",
@@ -37,7 +37,7 @@
     "2": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -46,7 +46,7 @@
     "3": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -55,7 +55,7 @@
     "4": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -64,7 +64,7 @@
     "5": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -73,7 +73,7 @@
     "6": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -82,7 +82,7 @@
     "7": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -91,7 +91,7 @@
     "8": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -100,7 +100,7 @@
     "9": {
       "effects": [
         {
-          "type": "todo",
+          "type": "utility_effect",
           "description": "TODO: Rank information needed",
           "conditions": []
         }
@@ -109,13 +109,13 @@
     "10": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Dealing damage grants you Ascendance for 6 seconds, increasing your Evasion Rating by 12% and causing you to unleash 3 blasts of wind at random nearby enemies every second, dealing 110% base damage + 486 to enemies they hit. Enemies struck by multiple blasts take 75% reduced damage from subsequent hits",
           "conditions": [
-            "on_damage_dealt",
-            "cooldown_restriction",
-            "damage_reduction_stacking"
-          ]
+            "cooldown_restriction"
+          ],
+          "value": 12.0,
+          "duration": 6.0
         }
       ]
     }

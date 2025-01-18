@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "utility_effect",
           "description": "Increases the speed of your Primary Attack by 5",
           "conditions": []
         }
@@ -18,81 +18,90 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Attack Speed bonus increased to 16.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Attack Speed bonus increased to 6.50%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.5
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Primary Attack damage increased by 0.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 0.5
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Attack Speed bonus increased to 8.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Primary Attack damage increased by 1%",
-          "conditions": []
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Attack Speed bonus increased to 10.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Primary Attack damage increased by 1.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 1.5
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Attack Speed bonus increased to 13.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Primary Attack damage increased by 2%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     }

@@ -9,180 +9,160 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 5%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 5.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 0% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 0.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 6%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 6.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 0% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 0.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 6%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 6.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 1% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Damage you take while moving is reduced by 7.5%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 7.5
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 1% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Damage you take while moving is reduced by 7.5%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 7.5
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 2% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 10%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 10.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 2% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 10%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 10.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 3% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Damage you take while moving is reduced by 12.5%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 12.5
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 3% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Damage you take while moving is reduced by 12.5%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 12.5
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 4% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 4.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Damage you take while moving is reduced by 15%",
-          "conditions": [
-            "while_moving"
-          ]
+          "conditions": [],
+          "value": 15.0
         },
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "You have a 4% chance to be immune to an attempt to Slow you",
-          "conditions": [
-            "on_slow_attempt"
-          ]
+          "conditions": [],
+          "value": 4.0
         }
       ]
     }

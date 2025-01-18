@@ -9,18 +9,20 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "chance to rain meteorites in an area, dealing 200% base damage in total",
-          "conditions": []
+          "conditions": [],
+          "value": 200.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "chance to call down meteorites, dealing 400% base damage to all enemies in the area",
-          "conditions": []
+          "conditions": [],
+          "value": 400.0
         }
       ]
     }

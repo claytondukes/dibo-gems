@@ -9,18 +9,20 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Your Primary Attack Taunts non-Boss monsters, forcing them to attack you for 2.00 seconds. Each target cannot be affected more often than once every 20 seconds",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "duration": 2.0,
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Taunt duration increased to 6.00 seconds",
           "conditions": [
             "on_attack"
@@ -31,7 +33,7 @@
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Taunt duration increased to 2.50 seconds",
           "conditions": [
             "on_attack"
@@ -42,18 +44,19 @@
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 2% from monsters affected by Mocking Laughter",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 2.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Taunt duration increased to 3.00 seconds",
           "conditions": [
             "on_attack"
@@ -64,18 +67,19 @@
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 4% from monsters affected by Mocking Laughter",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 4.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Taunt duration increased to 4.00 seconds",
           "conditions": [
             "on_attack"
@@ -86,18 +90,19 @@
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 6% from monsters affected by Mocking Laughter",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 6.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Taunt duration increased to 5.00 seconds",
           "conditions": [
             "on_attack"
@@ -108,11 +113,12 @@
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "proc_effect",
           "description": "Decrease all damage you take by 8% from monsters affected by Mocking Laughter",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 8.0
         }
       ]
     }

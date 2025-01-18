@@ -9,22 +9,21 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Enters roiling rage for 6s, +12% Crit Chance, crits cause explosion dealing 36% base damage over 3s",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 12.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "increases your Critical Hit Chance by 16% for 6 seconds",
-          "conditions": [
-            "on_hit"
-          ]
+          "conditions": [],
+          "value": 16.0,
+          "duration": 6.0
         }
       ]
     }

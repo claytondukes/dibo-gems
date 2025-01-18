@@ -9,90 +9,100 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 6%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 7%",
-          "conditions": []
+          "conditions": [],
+          "value": 7.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Continual damage taken is reduced by 1%",
-          "conditions": []
+          "conditions": [],
+          "value": 1.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 8.5%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.5
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Continual damage taken is reduced by 2%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 11%",
-          "conditions": []
+          "conditions": [],
+          "value": 11.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Continual damage taken is reduced by 3%",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 14%",
-          "conditions": []
+          "conditions": [],
+          "value": 14.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "damage_effect",
           "description": "Continual damage taken is reduced by 4%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Continual damage done is increased by 16%",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0
         }
       ]
     }

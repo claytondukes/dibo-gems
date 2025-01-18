@@ -13,7 +13,8 @@
           "description": "chance to chain lightning to 8 enemies dealing 45% base damage + 446",
           "conditions": [
             "on_attack"
-          ]
+          ],
+          "value": 45.0
         }
       ]
     }

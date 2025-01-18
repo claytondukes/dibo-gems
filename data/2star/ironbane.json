@@ -9,93 +9,101 @@
     "1": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "damage_effect",
           "description": "Your Channeling skills have a 10% chance to dissolve enemy armor for 6 seconds, increasing the damage they take by 5%",
-          "conditions": [
-            "on_channel",
-            "target_restriction"
-          ]
+          "conditions": [],
+          "value": 10.0,
+          "duration": 6.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Damage taken increase is improved to 6%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Dissolving enemy armor also reduces their movement speed by 10%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Damage taken increase is improved to 8%",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Dissolving enemy armor also reduces their movement speed by 20%",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Damage taken increase is improved to 10%",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Dissolving enemy armor also reduces their movement speed by 30%",
-          "conditions": []
+          "conditions": [],
+          "value": 30.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Damage taken increase is improved to 13%",
-          "conditions": []
+          "conditions": [],
+          "value": 13.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "debuff_effect",
           "description": "Dissolving enemy armor also reduces their movement speed by 40%",
-          "conditions": []
+          "conditions": [],
+          "value": 40.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "buff_effect",
           "description": "Damage taken increase is improved to 16%",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0
         }
       ]
     }

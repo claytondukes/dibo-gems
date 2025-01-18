@@ -9,34 +9,39 @@
     "1": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Your critical hits inflict agony, dealing 10% base damage + 122 every second for 6 seconds. Each enemy cannot be affected by this more often than once every 20 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 10.0,
+          "duration": 6.0,
+          "cooldown": 20.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 30% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 30.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 12% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 12.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "Increases your attack speed by 1",
           "conditions": []
         }
@@ -45,34 +50,37 @@
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 15% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 15.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "Increases your attack speed by 3% for each nearby enemy afflicted with agony",
-          "conditions": []
+          "conditions": [],
+          "value": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 20% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 20.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "Increases your attack speed by 4",
           "conditions": []
         }
@@ -81,18 +89,20 @@
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 25% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 25.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "Increases your attack speed by 6% for each nearby enemy afflicted with agony",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     }

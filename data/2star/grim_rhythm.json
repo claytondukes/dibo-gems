@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "increases your Attack Speed by 0",
           "conditions": []
         }
@@ -18,7 +18,7 @@
     "10": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "buff_effect",
           "description": "increases your Attack Speed by 2",
           "conditions": []
         }

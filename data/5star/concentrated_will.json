@@ -11,88 +11,102 @@
         {
           "type": "damage_effect",
           "description": "blast of holy light in your direction dealing 55% base damage + 547 to all enemies in the path",
-          "conditions": []
+          "conditions": [],
+          "value": 55.0
         }
       ]
     },
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 135% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 135.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 65% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 65.0
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "When the guardian angel returns to the high heavens it blesses you, increasing your damage and movement speed by 4% for 2 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 4.0,
+          "duration": 2.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 80% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 80.0
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "When the guardian angel returns to the high heavens it blesses you, increasing your damage and movement speed by 8% for 2 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 8.0,
+          "duration": 2.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 100% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 100.0
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "When the guardian angel returns to the high heavens it blesses you, increasing your damage and movement speed by 12% for 2 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 12.0,
+          "duration": 2.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage is increased to 115% of base damage",
-          "conditions": []
+          "conditions": [],
+          "value": 115.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "When the guardian angel returns to the high heavens it blesses you, increasing your damage and movement speed by 16% for 2 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 16.0,
+          "duration": 2.0
         }
       ]
     }

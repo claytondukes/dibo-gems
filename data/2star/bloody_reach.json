@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "stat_effect",
+          "type": "utility_effect",
           "description": "Increases all damage you deal by 2",
           "conditions": []
         }
@@ -18,81 +18,94 @@
     "10": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 6.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 6.0
         }
       ]
     },
     "2": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 2.70%",
-          "conditions": []
+          "conditions": [],
+          "value": 2.7
         }
       ]
     },
     "3": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "debuff_effect",
           "description": "chance to decrease enemy attack and movement speeds by 35% for 3 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 35.0,
+          "duration": 3.0
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 3.40%",
-          "conditions": []
+          "conditions": [],
+          "value": 3.4
         }
       ]
     },
     "5": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "debuff_effect",
           "description": "chance to decrease enemy attack and movement speeds by 35% for 3 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 35.0,
+          "duration": 3.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 4.20%",
-          "conditions": []
+          "conditions": [],
+          "value": 4.2
         }
       ]
     },
     "7": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "debuff_effect",
           "description": "chance to decrease enemy attack and movement speeds by 35% for 3 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 35.0,
+          "duration": 3.0
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Damage increased by up to 5.00%",
-          "conditions": []
+          "conditions": [],
+          "value": 5.0
         }
       ]
     },
     "9": {
       "effects": [
         {
-          "type": "proc_effect",
+          "type": "debuff_effect",
           "description": "chance to decrease enemy attack and movement speeds by 35% for 3 seconds",
-          "conditions": []
+          "conditions": [],
+          "value": 35.0,
+          "duration": 3.0
         }
       ]
     }

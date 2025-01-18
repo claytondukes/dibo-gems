@@ -9,7 +9,7 @@
     "1": {
       "effects": [
         {
-          "type": "damage_effect",
+          "type": "utility_effect",
           "description": "burst of light that Blinds all nearby enemies, reducing their vision and causing total loss of control for 1",
           "conditions": []
         }
@@ -18,7 +18,7 @@
     "10": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Blind duration increased to 4 seconds",
           "conditions": []
         }
@@ -27,7 +27,7 @@
     "2": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Blind duration increased to 1",
           "conditions": []
         }
@@ -36,16 +36,17 @@
     "3": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Deal 3.5% increased damage to Blinded enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 3.5
         }
       ]
     },
     "4": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Blind duration increased to 2",
           "conditions": []
         }
@@ -54,16 +55,17 @@
     "5": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Deal 7% increased damage to Blinded enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 7.0
         }
       ]
     },
     "6": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Blind duration increased to 2",
           "conditions": []
         }
@@ -72,16 +74,17 @@
     "7": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Deal 10.5% increased damage to Blinded enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 10.5
         }
       ]
     },
     "8": {
       "effects": [
         {
-          "type": "control_effect",
+          "type": "utility_effect",
           "description": "Blind duration increased to 3",
           "conditions": []
         }
@@ -90,9 +93,10 @@
     "9": {
       "effects": [
         {
-          "type": "generic_effect",
+          "type": "damage_effect",
           "description": "Deal 14% increased damage to Blinded enemies",
-          "conditions": []
+          "conditions": [],
+          "value": 14.0
         }
       ]
     }
