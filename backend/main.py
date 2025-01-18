@@ -67,8 +67,20 @@ class Gem(BaseModel):
     metadata: GemMetadata = Field(..., description="Gem metadata")
     name: str = Field(..., description="Name of the gem")
     stars: str = Field(..., description="Star rating of the gem")
+    description: str = Field(default="", description="Description of the gem")
     ranks: Dict[str, Rank] = Field(..., description="Ranks and their effects")
     
+    class Config:
+        extra = "allow"
+
+class GemListItem(BaseModel):
+    """Basic information about a gem for list views."""
+    name: str = Field(..., description="Name of the gem")
+    stars: int = Field(..., description="Star rating of the gem")
+    description: str = Field(..., description="Brief description of the gem")
+    effects: List[str] = Field(default_factory=list, description="List of main effects")
+    file_path: str = Field(..., description="Path to the gem's JSON file")
+
     class Config:
         extra = "allow"
 
@@ -79,21 +91,17 @@ def load_gem(file_path: Path) -> Dict:
         file_path: Path to the JSON file
         
     Returns:
-        Dict containing the gem data
+        Dictionary containing gem information
         
     Raises:
-        HTTPException: If file not found or invalid JSON
+        HTTPException: If there's an error reading or parsing the file
     """
     try:
-        if not file_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail=f"Gem file not found: {file_path.name}"
-            )
         with open(file_path, 'r') as f:
             data = json.load(f)
-            # Validate data against Gem model
-            Gem.model_validate(data)
+            # Ensure description exists
+            if 'description' not in data:
+                data['description'] = ''
             return data
     except json.JSONDecodeError as e:
         raise HTTPException(
@@ -103,7 +111,7 @@ def load_gem(file_path: Path) -> Dict:
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Error loading gem {file_path.name}: {str(e)}"
+            detail=f"Error reading {file_path.name}: {str(e)}"
         )
 
 def save_gem(file_path: Path, gem_data: Dict) -> None:
@@ -131,7 +139,29 @@ def save_gem(file_path: Path, gem_data: Dict) -> None:
             detail=f"Error saving gem {file_path.name}: {str(e)}"
         )
 
-@app.get("/gems", response_model=List[Dict[str, str]])
+def convert_to_snake_case(name: str) -> str:
+    """Convert a string to snake case.
+    
+    Args:
+        name: String to convert
+        
+    Returns:
+        Snake case version of the string
+        
+    Examples:
+        >>> convert_to_snake_case("Blood-Soaked Jade")
+        'blood_soaked_jade'
+        >>> convert_to_snake_case("Berserker's Eye")
+        'berserkers_eye'
+    """
+    # Remove apostrophes first
+    name = name.replace("'", "")
+    # Replace hyphens with spaces
+    name = name.replace('-', ' ')
+    # Convert to lowercase and replace spaces with underscores
+    return name.lower().replace(' ', '_')
+
+@app.get("/gems", response_model=List[GemListItem])
 async def list_gems():
     """List all gems with their basic information.
     
@@ -142,93 +172,107 @@ async def list_gems():
         HTTPException: If there's an error reading the data directory
     """
     try:
-        if not DATA_DIR.exists():
-            raise HTTPException(
-                status_code=500,
-                detail=f"Data directory not found: {DATA_DIR}"
-            )
-            
         gems = []
         for star_dir in DATA_DIR.iterdir():
-            if star_dir.is_dir():
-                for gem_file in star_dir.glob("*.json"):
-                    try:
-                        gem_data = load_gem(gem_file)
-                        gems.append({
-                            "name": gem_data["name"],
-                            "stars": gem_data["stars"],
-                            "file_path": str(gem_file.relative_to(DATA_DIR))
-                        })
-                    except Exception as e:
-                        # Log error but continue processing other gems
-                        print(f"Error loading {gem_file}: {e}")
-        return gems
+            if not star_dir.is_dir() or not star_dir.name.endswith('star'):
+                continue
+                
+            for gem_file in star_dir.glob('*.json'):
+                try:
+                    with open(gem_file, 'r') as f:
+                        data = json.load(f)
+                        # Extract main effects from rank 1
+                        main_effects = []
+                        if data.get('ranks') and data['ranks'].get('1'):
+                            for effect in data['ranks']['1'].get('effects', []):
+                                main_effects.append(effect.get('description', ''))
+                        
+                        gems.append(GemListItem(
+                            name=data['name'],
+                            stars=int(star_dir.name[0]),  # Extract star rating from directory name
+                            description=data.get('description', ''),
+                            effects=main_effects,
+                            file_path=str(gem_file.relative_to(DATA_DIR))
+                        ))
+                except (json.JSONDecodeError, KeyError) as e:
+                    print(f"Error reading {gem_file}: {e}")
+                    continue
+                    
+        return sorted(gems, key=lambda x: (x.stars, x.name))
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Error listing gems: {str(e)}"
+            detail=f"Failed to list gems: {str(e)}"
         )
 
 @app.get("/gems/{star_rating}/{gem_name}", response_model=Gem)
-async def get_gem(star_rating: str, gem_name: str):
-    """Get detailed information for a specific gem.
+async def get_gem(star_rating: int, gem_name: str) -> Dict:
+    """Get detailed information about a specific gem.
     
     Args:
-        star_rating: Star rating of the gem
+        star_rating: Number of stars (1, 2, or 5)
         gem_name: Name of the gem
         
     Returns:
-        Complete gem data
+        Dictionary containing gem information
         
     Raises:
-        HTTPException: If gem not found or invalid data
+        HTTPException: If gem is not found or there's an error reading the file
     """
-    # Convert spaces to underscores and make lowercase
-    gem_name = gem_name.replace(" ", "_").lower()
-    # Add 'star' to the directory name
-    star_dir = f"{star_rating}star"
-    file_path = DATA_DIR / star_dir / f"{gem_name}.json"
-    return load_gem(file_path)
+    try:
+        # Convert the URL-decoded name to snake case
+        file_name = f"{convert_to_snake_case(gem_name)}.json"
+        file_path = DATA_DIR / f"{star_rating}star" / file_name
+        
+        if not file_path.exists():
+            raise HTTPException(
+                status_code=404,
+                detail=f"Gem not found: {gem_name} ({star_rating} stars)"
+            )
+            
+        return load_gem(file_path)
+    except Exception as e:
+        if isinstance(e, HTTPException):
+            raise e
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error loading gem {gem_name}: {str(e)}"
+        )
 
 @app.put("/gems/{star_rating}/{gem_name}", response_model=Gem)
-async def update_gem(
-    star_rating: str,
-    gem_name: str,
-    gem_data: Gem
-):
+async def update_gem(star_rating: int, gem_name: str, gem: Gem) -> Dict:
     """Update a specific gem's information.
     
     Args:
-        star_rating: Star rating of the gem
+        star_rating: Number of stars (1, 2, or 5)
         gem_name: Name of the gem
-        gem_data: Updated gem data
+        gem: Updated gem data
         
     Returns:
-        Updated gem data
+        Updated gem information
         
     Raises:
-        HTTPException: If gem not found or validation fails
+        HTTPException: If there's an error saving the file
     """
-    # Convert spaces to underscores and make lowercase
-    gem_name = gem_name.replace(" ", "_").lower()
-    # Add 'star' to the directory name
-    star_dir = f"{star_rating}star"
-    file_path = DATA_DIR / star_dir / f"{gem_name}.json"
-    
-    # Verify the gem exists
-    if not file_path.exists():
-        raise HTTPException(
-            status_code=404,
-            detail=f"Gem not found: {gem_name}"
-        )
-    
     try:
-        save_gem(file_path, gem_data.model_dump())
-        return gem_data
+        # Convert the URL-decoded name to snake case
+        file_name = f"{convert_to_snake_case(gem_name)}.json"
+        file_path = DATA_DIR / f"{star_rating}star" / file_name
+        
+        if not file_path.exists():
+            raise HTTPException(
+                status_code=404,
+                detail=f"Gem not found: {gem_name} ({star_rating} stars)"
+            )
+            
+        save_gem(file_path, gem.dict())
+        return gem
     except Exception as e:
+        if isinstance(e, HTTPException):
+            raise e
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to update gem: {str(e)}"
+            detail=f"Error updating gem {gem_name}: {str(e)}"
         )
 
 @app.get("/export", response_model=Dict[str, Dict[str, Gem]])

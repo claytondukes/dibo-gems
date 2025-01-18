@@ -3,48 +3,69 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
+  ModalFooter,
+  Button,
   ModalCloseButton,
-  ModalProps as ChakraModalProps,
+  useColorModeValue,
 } from '@chakra-ui/react';
-import { Button } from './Button';
 
-interface ModalProps extends Omit<ChakraModalProps, 'children'> {
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
   title: string;
   children: React.ReactNode;
-  onConfirm?: () => void;
-  confirmText?: string;
-  showFooter?: boolean;
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | 'full';
 }
 
-export const Modal = ({
-  title,
-  children,
-  onConfirm,
-  confirmText = 'Confirm',
-  showFooter = true,
-  ...props
-}: ModalProps) => {
+export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl' }: ModalProps) => {
+  const bgColor = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+
   return (
-    <ChakraModal {...props}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{title}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{children}</ModalBody>
-        {showFooter && (
-          <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={props.onClose}>
-              Cancel
-            </Button>
-            {onConfirm && (
-              <Button colorScheme="blue" onClick={onConfirm}>
-                {confirmText}
-              </Button>
-            )}
-          </ModalFooter>
-        )}
+    <ChakraModal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={size}
+      scrollBehavior="inside"
+      motionPreset="slideInBottom"
+    >
+      <ModalOverlay backdropFilter="blur(4px)" />
+      <ModalContent
+        bg={bgColor}
+        borderColor={borderColor}
+        borderWidth="1px"
+        borderRadius="xl"
+        mx={4}
+      >
+        <ModalHeader
+          borderBottomWidth="1px"
+          borderColor={borderColor}
+          py={4}
+          fontSize="lg"
+          fontWeight="bold"
+        >
+          {title}
+        </ModalHeader>
+        <ModalCloseButton size="lg" />
+        
+        <ModalBody py={6}>
+          {children}
+        </ModalBody>
+
+        <ModalFooter
+          borderTopWidth="1px"
+          borderColor={borderColor}
+          py={4}
+        >
+          <Button variant="ghost" mr={3} onClick={onClose}>
+            Cancel
+          </Button>
+          <Button colorScheme="blue" onClick={onConfirm}>
+            Save Changes
+          </Button>
+        </ModalFooter>
       </ModalContent>
     </ChakraModal>
   );

@@ -16,13 +16,16 @@ export type GemMetadata = {
 export type Gem = {
   name: string;
   stars: 1 | 2 | 5;
+  description: string;
   metadata: GemMetadata;
   ranks: Record<string, GemRank>;
 };
 
 export type GemListItem = {
   name: string;
-  stars: 1 | 2 | 5;
+  stars: number;
+  description: string;
+  effects: string[];
   file_path: string;
 };
 
