@@ -20,16 +20,22 @@ app = FastAPI(
 )
 
 # Enable CORS for configured origins
+origins = os.getenv("CORS_ORIGINS", "*")
+if origins == "*":
+    allow_origins = ["*"]  # Allow all origins in development
+else:
+    allow_origins = origins.split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:5174").split(","),
-    allow_credentials=True,
+    allow_origins=allow_origins,
+    allow_credentials=False,  # Set to False since we're using * for origins
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Data directory path from environment variable
-DATA_DIR = Path(os.getenv("DATA_DIR", os.path.join(os.path.dirname(__file__), "..", "data")))
+# Data directory path (relative to backend directory)
+DATA_DIR = Path(os.path.join(os.path.dirname(__file__),"data"))
 
 class Effect(BaseModel):
     """Represents a gem effect with its type, description, and conditions."""
@@ -116,10 +122,15 @@ def save_gem(file_path: Path, gem: Gem) -> None:
 @app.get("/gems", response_model=List[GemListItem])
 def list_gems() -> List[GemListItem]:
     """List all gems with their basic information."""
+    print(f"DATA_DIR is: {DATA_DIR}")
+    print(f"DATA_DIR exists: {DATA_DIR.exists()}")
+    print(f"DATA_DIR contents: {list(DATA_DIR.iterdir()) if DATA_DIR.exists() else 'directory not found'}")
+    
     gems = []
     
     for star_dir in ["1star", "2star", "5star"]:
         star_path = DATA_DIR / star_dir
+        print(f"Checking {star_path}, exists: {star_path.exists()}")
         if not star_path.exists():
             continue
             

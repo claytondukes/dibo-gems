@@ -1,0 +1,36 @@
+services:
+  backend:
+    container_name: back
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    volumes:
+      - ./backend/data:/app/data
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  frontend:
+    container_name: front
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+    ports:
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - app-network
+    depends_on:
+      - backend
+
+networks:
+  app-network:
+    driver: bridge

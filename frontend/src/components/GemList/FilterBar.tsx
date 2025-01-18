@@ -14,7 +14,6 @@ import {
   MenuItem,
   Button,
   Divider,
-  Text,
   Checkbox,
 } from '@chakra-ui/react';
 import {

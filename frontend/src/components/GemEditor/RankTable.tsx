@@ -13,15 +13,13 @@ import {
   Button,
   HStack,
   Input,
-  FormControl,
-  FormLabel,
   Select,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
-import { GemRanks, GemEffectType } from '../../types/gem';
+import { GemRank, GemEffectType } from '../../types/gem';
 
 interface RankTableProps {
-  ranks: GemRanks;
+  ranks: Record<string, GemRank>;
   onRankChange: (rank: string, effects: any[]) => void;
 }
 
