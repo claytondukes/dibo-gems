@@ -18,7 +18,7 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
-import { GemRanks } from '../../types/gem';
+import { GemRanks, GemEffectType } from '../../types/gem';
 
 interface RankTableProps {
   ranks: GemRanks;
@@ -34,7 +34,7 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
     const currentEffects = ranks[rank]?.effects || [];
     onRankChange(rank, [
       ...currentEffects,
-      { type: 'generic_effect', description: '' },
+      { type: GemEffectType.PROC, description: '' },
     ]);
   };
 
@@ -90,9 +90,14 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
                         }
                         bg={bgColor}
                       >
-                        <option value="generic_effect">Generic Effect</option>
-                        <option value="proc_effect">Proc Effect</option>
-                        <option value="damage_effect">Damage Effect</option>
+                        <option value={GemEffectType.PROC}>Proc Effect</option>
+                        <option value={GemEffectType.STAT}>Stat Effect</option>
+                        <option value={GemEffectType.DAMAGE}>Damage Effect</option>
+                        <option value={GemEffectType.BUFF}>Buff Effect</option>
+                        <option value={GemEffectType.DEBUFF}>Debuff Effect</option>
+                        <option value={GemEffectType.SHIELD}>Shield Effect</option>
+                        <option value={GemEffectType.SUMMON}>Summon Effect</option>
+                        <option value={GemEffectType.UTILITY}>Utility Effect</option>
                       </Select>
                     </Td>
                     <Td>
