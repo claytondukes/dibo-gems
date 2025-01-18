@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "You have a X% chance when attacked to release a burst of light that Blinds all nearby enemies, reducing their vision and causing total Loss of Control for four seconds. Cannot occur more often than once every Cs. You also deal X% increased damage to Blinded enemies."
 }

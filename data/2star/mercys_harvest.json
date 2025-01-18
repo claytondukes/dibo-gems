@@ -131,5 +131,6 @@
   "synergy_categories": [
     "damage_boost",
     "execution"
-  ]
+  ],
+  "description": "Damaging enemies below X% Life conjures a scythe wielding reaper to cleave through nearby enemies, dealing X% base damage + 587 to enemies within the area. Additionally, enemies slain by the reaper increase your damage done by X% for Ts, stacking up to 6 times"
 }

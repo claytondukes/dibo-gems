@@ -127,5 +127,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases all damage you deal by up to X% while at full Life, with a minimum bonus of X% while at low Life. Increases your Movement Speed by X%. Additionally, take X% decreased damage while below X% Life."
 }

@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you defeat an enemy you trigger a volatile explosion dealing X% base damage + 365 to all nearby enemies while granting yourself X% increased damage for two seconds. Cannot occur more often than once every six seconds."
 }

@@ -101,5 +101,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your attacks have a X% chance to summon a shadow clone that lasts 20.00 seconds and gains some of your attributes. You can now have up to 3 shadow clones at one time and their Life is increased by X%."
 }

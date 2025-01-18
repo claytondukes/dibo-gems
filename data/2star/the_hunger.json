@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Heal X% base damage + 567 Life each time you defeat an enemy. Cannot occur more often than once every Cs. Increase your attack speed by X% for Ts after defeating an enemy."
 }

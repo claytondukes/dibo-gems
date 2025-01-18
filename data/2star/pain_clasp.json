@@ -28,5 +28,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases damage dealt by X% to enemies suffering from a continuous damage effect"
 }

@@ -102,5 +102,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Your Channeling skills have a 10% chance to dissolve enemy armor for 6 seconds, increasing the damage they take by 16% and reducing their movement speed by 40%. Cannot occur against the same target more often than once every 20 seconds."
+  "max_effect": "Your Channeling skills have a 10% chance to dissolve enemy armor for 6 seconds, increasing the damage they take by 16% and reducing their movement speed by 40%. Cannot occur against the same target more often than once every 20 seconds.",
+  "description": "Damage taken increase is improved to X%"
 }

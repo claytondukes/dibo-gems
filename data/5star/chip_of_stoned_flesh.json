@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you cause an enemy total loss of control, you also inflict an explosive curse. When the curse expires, enemies will explode for X% of all damage taken during its duration, up to a maximum of X% base damage. Cannot occur more often than once every Cs per target. Damage taken by victims of the explosive curse increased by X%."
 }

@@ -101,5 +101,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Power and Command alternate states every Cs. Power increases your Primary Attack damage by X%. Command increases all other skill damage by X%. Each time these states alternate, you have a X% chance to dispel a harmful effect from yourself."
 }

@@ -99,5 +99,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Continual damage done is increased by 16% and continual damage taken is reduced by 4%"
+  "max_effect": "Continual damage done is increased by 16% and continual damage taken is reduced by 4%",
+  "description": "Continual damage done is increased by X%"
 }

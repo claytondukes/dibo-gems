@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "When you use a skill to grant a buff, increase the damage and Movement speed of the target by X% for Ts. Cannot occur more often than once every Cs per target. Skill cooldowns decreased X%."
 }

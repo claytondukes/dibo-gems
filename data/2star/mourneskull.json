@@ -146,5 +146,6 @@
   ],
   "synergy_categories": [
     "damage_boost"
-  ]
+  ],
+  "description": "Dealing damage calls the spirit of the Lich King from within Mourneskull to drain the souls of nearby enemies, granting you Royal Dominion for Ts, increasing all damage you deal by X%, up to a maximum of X% if at least 3 enemies were drained. While Royal Dominion is active, your attacks will also unleash 2 Vile Spirits at nearby enemies every second that explode on contact, dealing X% base damage to all enemies near their target. Cannot occur more often than once every Ts"
 }

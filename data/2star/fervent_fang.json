@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Each time you deal damage to an enemy, that enemy now takes X% increased damage from your attacks, up to a maximum increase of X% at 10 stacks. All damage you deal to Elite monsters increased by X%."
 }

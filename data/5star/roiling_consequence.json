@@ -28,5 +28,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "increases your Critical Hit Chance by X% for Ts"
 }

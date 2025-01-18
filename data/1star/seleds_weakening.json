@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases all damage you deal to Elite monsters by X%. In addition, gain X% increased damage for Ts after killing an Elite monster."
 }

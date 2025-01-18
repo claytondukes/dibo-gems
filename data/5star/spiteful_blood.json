@@ -34,5 +34,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "gain an absorb shield equal to X% of your base damage while the effect is active and absorb shield equal to X% of your base damage while the effect is active"
 }

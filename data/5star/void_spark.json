@@ -17,5 +17,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "chance to chain lightning to 8 enemies dealing X% base damage + 446"
 }

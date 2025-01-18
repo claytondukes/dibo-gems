@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "increases your Attack Speed by X"
 }

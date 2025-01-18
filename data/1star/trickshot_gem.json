@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your Channeled skills consume energy X% slower and you take X% decreased damage while using them."
 }

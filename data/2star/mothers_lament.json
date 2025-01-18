@@ -31,5 +31,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Taking damage while below X% Life causes Maternal Disdain, increasing your Critical Hit Chance by X% for Ts. When Maternal Disdain ends, you release a blood spike toward nearby enemies, dealing X% base damage and causing them to Bleed for X% base damage over Ts"
 }

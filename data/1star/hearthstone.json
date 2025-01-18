@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "absorb shields increased by X%"
 }

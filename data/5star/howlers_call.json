@@ -144,5 +144,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your Primary Attack has a X% chance to summon a charging spirit wolf that inflicts X% base damage + 1,458 to all enemies in its path and has a X% chance to Stun enemies for Ts. Cannot occur more often than once every Cs."
 }

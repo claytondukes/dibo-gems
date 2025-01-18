@@ -116,5 +116,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your Primary Attacks and movement slowly charge you up with electricity. When fully-charged, your Primary Attacks will release chain lightning, dealing X% base damage +1134 to nearby enemies. Increases all damage you deal by X% for Ts. Cannot occur more often than once every Cs."
 }

@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "You deal X% increased damage to enemies suffering loss of control, and take X% decreased damage while you are suffering loss of control."
 }

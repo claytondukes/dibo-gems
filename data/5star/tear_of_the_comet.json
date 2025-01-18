@@ -101,5 +101,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Every second you maintain a Channeled skill, you launch 2 arcane missiles that deal 30% base damage + 120 to random enemies. Arcane missiles have a 40% chance to explode on impact, dealing 50% of their damage to nearby enemies."
+  "max_effect": "Every second you maintain a Channeled skill, you launch 2 arcane missiles that deal 30% base damage + 120 to random enemies. Arcane missiles have a 40% chance to explode on impact, dealing 50% of their damage to nearby enemies.",
+  "description": "Damage is increased to X% of base damage"
 }

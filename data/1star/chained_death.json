@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases damage done by your attacks by X% per target hit, up to a maximum of X% with 7 targets."
 }

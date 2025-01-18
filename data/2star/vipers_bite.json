@@ -24,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Your attacks poison enemies, dealing X% base damage + 480 every second for Ts. Additionally, poisoned enemies have their Attack Speed reduced by X%"
 }

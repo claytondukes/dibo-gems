@@ -121,5 +121,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Prevents fatal damage, and then grants a shield for Ts that absorbs damage equal to X% of your base damage. When the shield expires, heal for X% of the remaining value. Cannot occur more often than once every Cs."
 }

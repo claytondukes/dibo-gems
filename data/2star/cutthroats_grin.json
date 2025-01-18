@@ -134,5 +134,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Gain X% increased Critical Hit Chance and X% increased damage when attacking from behind."
 }

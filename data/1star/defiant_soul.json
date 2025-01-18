@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Each time you Block an attack, take X% less damage for Ts and deal X% base damage + 777 to all nearby enemies. Cannot occur more often than once every Cs."
 }

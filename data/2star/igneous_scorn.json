@@ -105,5 +105,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Your critical hits cause explosions that deal 120% base damage +486 to nearby enemies. These explosions cannot occur more often than once every 6 seconds. After triggering an explosion, your damage is increased by 10% for 2 seconds"
+  "max_effect": "Your critical hits cause explosions that deal 120% base damage +486 to nearby enemies. These explosions cannot occur more often than once every 6 seconds. After triggering an explosion, your damage is increased by 10% for 2 seconds",
+  "description": "Your critical hits cause explosions that deal X% base damage +Y to nearby enemies. After triggering an explosion, your damage is increased by X% for Ts"
 }

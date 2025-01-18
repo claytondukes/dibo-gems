@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Increases the duration of beneficial effects on you by X% and increases your Movement Speed by X% for three seconds after gaining a beneficial effect."
 }

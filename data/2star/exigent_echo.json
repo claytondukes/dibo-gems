@@ -102,5 +102,6 @@
   },
   "max_rank": 10,
   "magic_find": "5",
-  "max_effect": "Your block chance is increased by 30% for 6 seconds when you receive a Critical Hit. During the effect, damage received when blocking is reduced by 12%. Cannot occur more often than once every 20 seconds."
+  "max_effect": "Your block chance is increased by 30% for 6 seconds when you receive a Critical Hit. During the effect, damage received when blocking is reduced by 12%. Cannot occur more often than once every 20 seconds.",
+  "description": "Block chance increase is improved to X%"
 }

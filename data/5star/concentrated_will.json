@@ -96,5 +96,6 @@
         }
       ]
     }
-  }
+  },
+  "description": "Using a Dash skill calls a guardian angel to your aid, unleashing a blast of holy light in your direction dealing X% base damage + 547 to all enemies in the path. When the guardian angel returns to the High Heavens, it blesses you, increasing your damage and Movement Speed by X% for two seconds. Cannot occur more often than once every six seconds."
 }
