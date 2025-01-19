@@ -18,7 +18,7 @@ import { GemCard } from './components/GemList/GemCard';
 import { FilterBar } from './components/GemList/FilterBar';
 import { Modal } from './components/common/Modal';
 import { GemForm } from './components/GemEditor/GemForm';
-import { getGems, getGem, updateGem, getLocks, LockInfo } from './services/api';
+import { getGems, getGem, updateGem, getLocks, releaseLock, LockInfo } from './services/api';
 import { Gem, GemListItem } from './types/gem';
 import { theme } from './theme';
 import { LoginButton } from './components/common/LoginButton';
@@ -103,13 +103,26 @@ function AppContent() {
   };
 
   const handleSaveGem = async (updatedGem: Gem) => {
-    if (!updatedGem || !updatedGem.stars || !updatedGem.name) return;
+    if (!selectedGem || !updatedGem) return;
     
     updateGemMutation.mutate({
       stars: updatedGem.stars,
       name: updatedGem.name,
       gem: updatedGem
     });
+  };
+
+  const handleCloseEditor = async () => {
+    if (selectedGem) {
+      try {
+        await releaseLock(`${selectedGem.stars}-${selectedGem.name}`);
+        queryClient.invalidateQueries('locks');
+      } catch (error) {
+        console.error('Error releasing lock:', error);
+      }
+    }
+    setSelectedGem(null);
+    onClose();
   };
 
   const filteredAndSortedGems = gems
@@ -180,12 +193,12 @@ function AppContent() {
       </VStack>
 
       {selectedGem && (
-        <Modal 
-          isOpen={isOpen} 
-          onClose={onClose} 
-          size="2xl"
-          title={`Edit ${selectedGem.name}`}
-          onConfirm={() => selectedGem && handleSaveGem(selectedGem)}
+        <Modal
+          isOpen={isOpen}
+          onClose={handleCloseEditor}
+          onConfirm={() => handleSaveGem(selectedGem!)}
+          title={selectedGem ? `Edit ${selectedGem.name}` : 'Edit Gem'}
+          size="4xl"
         >
           <GemForm
             gem={selectedGem}

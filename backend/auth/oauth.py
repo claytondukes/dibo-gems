@@ -15,6 +15,7 @@ import uuid
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 LOCK_EXPIRE_MINUTES = int(os.environ.get("LOCK_EXPIRE_MINUTES", "30"))
 ALGORITHM = os.environ.get("JWT_ALGORITHM", "HS256")
+DATA_DIR = os.environ.get("DATA_DIR")
 
 # Initialize OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -121,7 +122,20 @@ def clean_expired_locks():
         if lock.expires_at < now
     ]
     for path in expired:
+        # Remove from memory
         del active_locks[path]
+        
+        # Remove lock file
+        try:
+            # Extract star rating and name
+            star_rating = path[0]
+            gem_name = path[2:]  # Skip the "N-" prefix
+            lock_path = os.path.join(DATA_DIR, f"{star_rating}star", f"{gem_name}.lock")
+            if os.path.exists(lock_path):
+                os.remove(lock_path)
+        except (OSError, IndexError):
+            pass
+            
     if expired:
         save_locks()
 
