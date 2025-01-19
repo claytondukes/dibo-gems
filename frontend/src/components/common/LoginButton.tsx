@@ -1,7 +1,6 @@
-import { Button, Icon, Text } from '@chakra-ui/react';
-import { FaGoogle } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
-import { initGoogleAuth, isAuthenticated, signOut } from '../../services/auth';
+import { Button } from '@chakra-ui/react';
+import { useEffect, useState, useRef } from 'react';
+import { initGoogleAuth, isAuthenticated, signOut, authStateChange } from '../../services/auth';
 
 // Add Google type definitions
 declare global {
@@ -12,8 +11,27 @@ declare global {
           initialize: (config: {
             client_id: string;
             callback: (response: { credential: string }) => void;
+            auto_select?: boolean;
+            cancel_on_tap_outside?: boolean;
+            context?: string;
+            ux_mode?: 'popup' | 'redirect';
+            allowed_parent_origin?: string;
           }) => void;
           prompt: () => void;
+          renderButton: (
+            parent: HTMLElement,
+            options: {
+              type?: 'standard' | 'icon';
+              theme?: 'outline' | 'filled_blue' | 'filled_black';
+              size?: 'large' | 'medium' | 'small';
+              text?: 'signin_with' | 'signup_with' | 'continue_with' | 'signin';
+              shape?: 'rectangular' | 'pill' | 'circle' | 'square';
+              logo_alignment?: 'left' | 'center';
+              width?: number;
+              locale?: string;
+            }
+          ) => void;
+          revoke: (token: string, callback: () => void) => void;
         };
       };
     };
@@ -23,6 +41,7 @@ declare global {
 export const LoginButton = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const init = async () => {
@@ -34,16 +53,26 @@ export const LoginButton = () => {
       }
     };
     init();
+
+    const handleAuthChange = () => setIsLoggedIn(isAuthenticated());
+    authStateChange.addEventListener('change', handleAuthChange);
+    return () => authStateChange.removeEventListener('change', handleAuthChange);
   }, []);
 
-  const handleLogin = () => {
-    window.google.accounts.id.prompt();
-  };
-
-  const handleLogout = () => {
-    signOut();
-    setIsLoggedIn(false);
-  };
+  // Render Google Sign-In button whenever buttonRef is available and user is not logged in
+  useEffect(() => {
+    if (!isLoggedIn && buttonRef.current) {
+      window.google.accounts.id.renderButton(buttonRef.current, {
+        type: 'standard',
+        theme: 'outline',
+        size: 'large',
+        text: 'signin_with',
+        shape: 'rectangular',
+        logo_alignment: 'left',
+        width: 250
+      });
+    }
+  }, [isLoggedIn, buttonRef.current]);
 
   if (isLoading) {
     return null;
@@ -52,7 +81,7 @@ export const LoginButton = () => {
   if (isLoggedIn) {
     return (
       <Button
-        onClick={handleLogout}
+        onClick={signOut}
         colorScheme="red"
         variant="outline"
         size="sm"
@@ -62,15 +91,5 @@ export const LoginButton = () => {
     );
   }
 
-  return (
-    <Button
-      onClick={handleLogin}
-      colorScheme="blue"
-      variant="solid"
-      size="sm"
-      leftIcon={<Icon as={FaGoogle} />}
-    >
-      <Text>Sign in with Google</Text>
-    </Button>
-  );
+  return <div ref={buttonRef} />;
 };
