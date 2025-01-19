@@ -19,6 +19,7 @@ from auth.oauth import (
     load_locks,
     active_locks,
 )
+from fastapi.responses import RedirectResponse
 
 # Load environment variables
 load_dotenv()
@@ -37,16 +38,26 @@ async def log_requests(request: Request, call_next):
     print(f"Response status: {response.status_code}")
     return response
 
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    response = await call_next(request)
+    
+    # Set security headers for cross-origin communication
+    response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
+    
+    return response
+
 # Enable CORS for configured origins
-origins = os.getenv("CORS_ORIGINS", "https://dibo-gems.dukes.io")
+origins = os.getenv("CORS_ORIGINS", "https://dibo-gems.dukes.io").split(",")
 print(f"CORS_ORIGINS env var: {origins}")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origins],  
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*", "Authorization"],
+    expose_headers=["*"],
 )
 
 # Data directory path (relative to backend directory)
@@ -119,7 +130,8 @@ class LockInfo(BaseModel):
         extra = "allow"
 
 class GoogleAuthRequest(BaseModel):
-    token: str = Field(..., description="Google OAuth token")
+    """Request model for Google OAuth authentication."""
+    credential: str = Field(..., description="Google OAuth credential token")
 
 def convert_to_snake_case(s: str) -> str:
     """Convert a string to snake_case, handling gem names correctly."""
@@ -162,7 +174,7 @@ load_locks()
 @app.post("/auth/google", response_model=TokenResponse)
 async def google_auth(request: GoogleAuthRequest):
     """Authenticate with Google OAuth token."""
-    user = verify_google_token(request.token)
+    user = verify_google_token(request.credential)
     access_token = create_access_token(user)
     return TokenResponse(access_token=access_token, token_type="bearer")
 
@@ -204,11 +216,12 @@ async def acquire_lock(
             pass
     
     # Create lock
+    now = datetime.now()
     lock_info = LockInfo(
         user_email=current_user.email,
         user_name=current_user.name,
-        locked_at=datetime.now(),
-        expires_at=datetime.now() + timedelta(minutes=5)
+        locked_at=now.isoformat(),
+        expires_at=(now + timedelta(minutes=5)).isoformat()
     )
     
     # Save lock
@@ -254,45 +267,43 @@ async def release_lock(
     # Delete lock
     os.remove(lock_path)
 
-@app.get("/gems/locks", response_model=Dict[str, dict])
-async def get_locks():
+@app.get("/gems/locks")
+async def get_locks() -> Dict[str, LockInfo]:
     """Get all current locks."""
-    print("Getting locks...")  # Debug print
-    try:
-        locks = {}
-        data_dir = os.getenv("DATA_DIR", "/app/data")
-        print(f"Looking for locks in {data_dir}")  # Debug print
-        
-        if not os.path.exists(data_dir):
-            print(f"Data directory {data_dir} does not exist!")
-            return {}
-        
-        # List all json files to find potential locks
-        for file_path in Path(data_dir).rglob("*.json"):
-            gem_path = f"{file_path.parent.name}-{file_path.stem}"
-            lock_path = file_path.with_suffix('.lock')
+    print("Getting locks...")
+    print(f"Looking for locks in {DATA_DIR}")
+    
+    locks = {}
+    # Walk through all star rating directories
+    for star_dir in Path(DATA_DIR).glob("*star"):
+        if not star_dir.is_dir():
+            continue
             
-            if lock_path.exists():
+        # Look for .lock files
+        for lock_file in star_dir.glob("*.lock"):
+            try:
+                with open(lock_file, 'r') as f:
+                    lock_data = json.load(f)
+                    # Convert stored timestamps to datetime for comparison
+                    expires_at = datetime.fromisoformat(lock_data['expires_at'])
+                    if expires_at > datetime.now():
+                        # Lock is still valid, add it to response
+                        gem_name = lock_file.stem  # filename without extension
+                        star_rating = star_dir.name[0]  # first character of directory name
+                        locks[f"{star_rating}-{gem_name}"] = LockInfo(**lock_data)
+                    else:
+                        # Lock has expired, remove the file
+                        lock_file.unlink()
+            except (json.JSONDecodeError, KeyError, ValueError, OSError):
+                # Invalid lock file, try to remove it
                 try:
-                    with open(lock_path, 'r') as f:
-                        lock_info = json.load(f)
-                        # Only include if lock hasn't expired
-                        expires_at = datetime.fromisoformat(lock_info['expires_at'])
-                        if expires_at > datetime.now():
-                            locks[gem_path] = lock_info
-                        else:
-                            # Clean up expired lock
-                            os.remove(lock_path)
-                except (json.JSONDecodeError, KeyError, ValueError) as e:
-                    print(f"Error reading lock file {lock_path}: {e}")  # Debug print
-                    # Invalid lock file, remove it
-                    os.remove(lock_path)
-        
-        print(f"Found locks: {locks}")  # Debug print
-        return locks
-    except Exception as e:
-        print(f"Error in get_locks: {e}")  # Debug print
-        raise HTTPException(status_code=500, detail=str(e))
+                    lock_file.unlink()
+                except OSError:
+                    pass
+                continue
+    
+    print(f"Found locks: {locks}")
+    return locks
 
 @app.get("/gems", response_model=List[GemListItem])
 def list_gems() -> List[GemListItem]:
