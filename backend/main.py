@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from models.gem import Gem, GemListItem
 from models.gem_types import GemEffectType
+from models.auth import TokenResponse, UserInfo
 from auth.oauth import (
     verify_google_token,
     create_access_token,
@@ -17,7 +18,6 @@ from auth.oauth import (
     release_lock,
     load_locks,
     active_locks,
-    UserInfo
 )
 
 # Load environment variables
@@ -118,10 +118,22 @@ class LockInfo(BaseModel):
     class Config:
         extra = "allow"
 
+class GoogleAuthRequest(BaseModel):
+    token: str = Field(..., description="Google OAuth token")
+
 def convert_to_snake_case(s: str) -> str:
-    """Convert a string to snake_case."""
-    s = s.lower().replace(" ", "_").replace("'", "").replace("&", "and")
-    return ''.join(c for c in s if c.isalnum() or c == '_')
+    """Convert a string to snake_case, handling gem names correctly."""
+    # Remove the rank prefix (e.g. "1-", "2-", "5-")
+    if s[0].isdigit() and s[1] == '-':
+        s = s[2:]
+    
+    # Convert to lowercase and replace special characters
+    s = s.lower().replace(" ", "_").replace("'", "").replace("&", "and").replace("-", "_")
+    
+    # Keep only alphanumeric and underscore characters
+    s = ''.join(c for c in s if c.isalnum() or c == '_')
+    
+    return s
 
 def load_gem(file_path: Path) -> Gem:
     """Load a gem from a JSON file."""
@@ -147,12 +159,12 @@ def save_gem(file_path: Path, gem: Gem) -> None:
 # Load locks on startup
 load_locks()
 
-@app.post("/auth/google")
-async def google_auth(token: str):
+@app.post("/auth/google", response_model=TokenResponse)
+async def google_auth(request: GoogleAuthRequest):
     """Authenticate with Google OAuth token."""
-    user = verify_google_token(token)
+    user = verify_google_token(request.token)
     access_token = create_access_token(user)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return TokenResponse(access_token=access_token, token_type="bearer")
 
 @app.post("/gems/{gem_path}/lock")
 async def acquire_lock(
@@ -160,10 +172,20 @@ async def acquire_lock(
     current_user: UserInfo = Depends(get_current_user)
 ) -> LockInfo:
     """Acquire a lock for editing a gem."""
-    lock_path = os.path.join(DATA_DIR, f"{gem_path}.lock")
+    # Extract star rating and convert name to snake case
+    if not gem_path[0].isdigit():
+        raise HTTPException(status_code=400, detail="Invalid gem path format")
+    
+    star_rating = f"{gem_path[0]}star"
+    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
+    
+    # Build paths
+    gem_dir = os.path.join(DATA_DIR, star_rating)
+    gem_path = os.path.join(gem_dir, f"{gem_name}.json")
+    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
     
     # Check if file exists
-    if not os.path.exists(os.path.join(DATA_DIR, f"{gem_path}.json")):
+    if not os.path.exists(gem_path):
         raise HTTPException(status_code=404, detail="Gem not found")
     
     # Check if already locked
@@ -199,28 +221,38 @@ async def acquire_lock(
 async def release_lock(
     gem_path: str,
     current_user: UserInfo = Depends(get_current_user)
-) -> dict[str, str]:
+) -> None:
     """Release a lock on a gem."""
-    lock_path = os.path.join(DATA_DIR, f"{gem_path}.lock")
+    # Extract star rating and convert name to snake case
+    if not gem_path[0].isdigit():
+        raise HTTPException(status_code=400, detail="Invalid gem path format")
     
+    star_rating = f"{gem_path[0]}star"
+    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
+    
+    # Build paths
+    gem_dir = os.path.join(DATA_DIR, star_rating)
+    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
+    
+    # Check if file exists
     if not os.path.exists(lock_path):
         raise HTTPException(status_code=404, detail="Lock not found")
     
+    # Check if user owns the lock
     try:
         with open(lock_path, 'r') as f:
             lock_info = json.load(f)
             if lock_info['user_email'] != current_user.email:
                 raise HTTPException(
                     status_code=403,
-                    detail="You can only release your own locks"
+                    detail="You don't own this lock"
                 )
     except (json.JSONDecodeError, KeyError):
-        # Invalid lock file, remove it
-        os.remove(lock_path)
-        return {"status": "Lock released"}
+        # Invalid lock file, we can delete it
+        pass
     
+    # Delete lock
     os.remove(lock_path)
-    return {"status": "Lock released"}
 
 @app.get("/gems/locks", response_model=Dict[str, dict])
 async def get_locks():

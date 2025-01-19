@@ -25,7 +25,7 @@ export const initGoogleAuth = async () => {
 // Handle the Google OAuth response
 const handleGoogleResponse = async (response: { credential: string }) => {
   try {
-    const { data } = await api.post('/auth/google', response.credential);
+    const { data } = await api.post('/auth/google', { token: response.credential });
     localStorage.setItem('token', data.access_token);
     window.location.reload(); // Refresh to update auth state
   } catch (error) {

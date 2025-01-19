@@ -97,7 +97,12 @@ export const getGem = async (stars: number, name: string): Promise<Gem> => {
 export const acquireLock = async (gemPath: string) => {
   try {
     console.log('Acquiring lock...');
-    const { data } = await api.post(`/gems/${gemPath}/lock`);
+    // Extract star rating and name
+    const [prefix, ...nameParts] = gemPath.split('-');
+    const name = nameParts.join('-');
+    const snakePath = `${prefix}-${toSnakeCase(name)}`;
+    
+    const { data } = await api.post(`/gems/${snakePath}/lock`);
     console.log('Lock acquired:', data);
     return data;
   } catch (error) {
@@ -112,7 +117,12 @@ export const acquireLock = async (gemPath: string) => {
 export const releaseLock = async (gemPath: string) => {
   try {
     console.log('Releasing lock...');
-    const { data } = await api.post(`/gems/${gemPath}/unlock`);
+    // Extract star rating and name
+    const [prefix, ...nameParts] = gemPath.split('-');
+    const name = nameParts.join('-');
+    const snakePath = `${prefix}-${toSnakeCase(name)}`;
+    
+    const { data } = await api.delete(`/gems/${snakePath}/lock`);
     console.log('Lock released:', data);
     return data;
   } catch (error) {
