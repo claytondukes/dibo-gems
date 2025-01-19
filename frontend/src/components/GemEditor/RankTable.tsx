@@ -68,15 +68,15 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
             </HStack>
           </Box>
 
-          <Box p={4}>
-            <Table variant="simple" size="sm">
+          <Box p={4} overflowX="auto">
+            <Table variant="simple" size="sm" sx={{ tableLayout: 'fixed' }}>
               <Thead>
                 <Tr>
-                  <Th width="20%">Type</Th>
-                  <Th width="35%">Description</Th>
-                  <Th width="25%">Conditions</Th>
-                  <Th width="10%">Value</Th>
-                  <Th width="10%"></Th>
+                  <Th width="25%" minWidth="150px">Type</Th>
+                  <Th width="40%" minWidth="200px">Description</Th>
+                  <Th width="20%" minWidth="120px">Conditions</Th>
+                  <Th width="10%" minWidth="80px">Value</Th>
+                  <Th width="5%" minWidth="40px"></Th>
                 </Tr>
               </Thead>
               <Tbody>
