@@ -1,3 +1,6 @@
+# Locks
+*.lock
+
 # windsurf
 .windsurfrules
 

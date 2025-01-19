@@ -23,6 +23,11 @@ export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl
   const bgColor = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onConfirm();
+  };
+
   return (
     <ChakraModal
       isOpen={isOpen}
@@ -40,6 +45,8 @@ export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl
         borderWidth="1px"
         borderRadius="xl"
         mx={4}
+        as="form"
+        onSubmit={handleSubmit}
       >
         <ModalHeader
           borderBottomWidth="1px"
@@ -64,7 +71,7 @@ export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl
           <Button variant="ghost" mr={3} onClick={onClose}>
             Cancel
           </Button>
-          <Button colorScheme="blue" onClick={onConfirm}>
+          <Button colorScheme="blue" type="submit">
             Save Changes
           </Button>
         </ModalFooter>

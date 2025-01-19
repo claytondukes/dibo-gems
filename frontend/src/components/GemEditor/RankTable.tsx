@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import { GemRank, GemEffectType } from '../../types/gem';
+import { getEffectTypeTag, effectTypeLabels } from './effectTypeUtils';
 
 interface RankTableProps {
   ranks: Record<string, GemRank>;
@@ -32,11 +33,11 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
     const currentEffects = ranks[rank]?.effects || [];
     onRankChange(rank, [
       ...currentEffects,
-      { type: GemEffectType.PROC, description: '' },
+      { type: GemEffectType.PROC, description: '', conditions: [], value: 0 },
     ]);
   };
 
-  const updateEffect = (rank: string, index: number, field: string, value: string) => {
+  const updateEffect = (rank: string, index: number, field: string, value: string | number | string[]) => {
     const currentEffects = [...(ranks[rank]?.effects || [])];
     currentEffects[index] = { ...currentEffects[index], [field]: value };
     onRankChange(rank, currentEffects);
@@ -71,8 +72,10 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
             <Table variant="simple" size="sm">
               <Thead>
                 <Tr>
-                  <Th width="30%">Type</Th>
-                  <Th>Description</Th>
+                  <Th width="20%">Type</Th>
+                  <Th width="35%">Description</Th>
+                  <Th width="25%">Conditions</Th>
+                  <Th width="10%">Value</Th>
                   <Th width="10%"></Th>
                 </Tr>
               </Thead>
@@ -80,23 +83,21 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
                 {ranks[rank]?.effects?.map((effect, index) => (
                   <Tr key={index}>
                     <Td>
-                      <Select
-                        size="sm"
-                        value={effect.type}
-                        onChange={(e) =>
-                          updateEffect(rank, index, 'type', e.target.value)
-                        }
-                        bg={bgColor}
-                      >
-                        <option value={GemEffectType.PROC}>Proc Effect</option>
-                        <option value={GemEffectType.STAT}>Stat Effect</option>
-                        <option value={GemEffectType.DAMAGE}>Damage Effect</option>
-                        <option value={GemEffectType.BUFF}>Buff Effect</option>
-                        <option value={GemEffectType.DEBUFF}>Debuff Effect</option>
-                        <option value={GemEffectType.SHIELD}>Shield Effect</option>
-                        <option value={GemEffectType.SUMMON}>Summon Effect</option>
-                        <option value={GemEffectType.UTILITY}>Utility Effect</option>
-                      </Select>
+                      <HStack spacing={2}>
+                        {getEffectTypeTag(effect.type as GemEffectType)}
+                        <Select
+                          size="sm"
+                          value={effect.type}
+                          onChange={(e) =>
+                            updateEffect(rank, index, 'type', e.target.value)
+                          }
+                          bg={bgColor}
+                        >
+                          {Object.entries(effectTypeLabels).map(([type, label]) => (
+                            <option key={type} value={type}>{label}</option>
+                          ))}
+                        </Select>
+                      </HStack>
                     </Td>
                     <Td>
                       <Input
@@ -104,6 +105,35 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
                         value={effect.description}
                         onChange={(e) =>
                           updateEffect(rank, index, 'description', e.target.value)
+                        }
+                        bg={bgColor}
+                      />
+                    </Td>
+                    <Td>
+                      <Select
+                        size="sm"
+                        value={effect.conditions?.[0] || ''}
+                        onChange={(e) =>
+                          updateEffect(rank, index, 'conditions', [e.target.value])
+                        }
+                        bg={bgColor}
+                      >
+                        <option value="">Select Condition</option>
+                        <option value="on_attack">On Attack</option>
+                        <option value="on_hit">On Hit</option>
+                        <option value="on_kill">On Kill</option>
+                        <option value="on_dodge">On Dodge</option>
+                        <option value="passive">Passive</option>
+                      </Select>
+                    </Td>
+                    <Td>
+                      <Input
+                        size="sm"
+                        type="number"
+                        step="0.1"
+                        value={effect.value || 0}
+                        onChange={(e) =>
+                          updateEffect(rank, index, 'value', parseFloat(e.target.value))
                         }
                         bg={bgColor}
                       />
