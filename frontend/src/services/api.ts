@@ -117,12 +117,8 @@ export const acquireLock = async (gemPath: string) => {
 export const releaseLock = async (gemPath: string) => {
   try {
     console.log('Releasing lock...');
-    // Extract star rating and name
-    const [prefix, ...nameParts] = gemPath.split('-');
-    const name = nameParts.join('-');
-    const snakePath = `${prefix}-${toSnakeCase(name)}`;
-    
-    const { data } = await api.delete(`/gems/${snakePath}/lock`);
+    // The gemPath is already in the correct format (e.g. "1-berserkers_eye")
+    const { data } = await api.delete(`/gems/${gemPath}/lock`);
     console.log('Lock released:', data);
     return data;
   } catch (error) {

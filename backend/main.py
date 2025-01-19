@@ -18,6 +18,7 @@ from auth.oauth import (
     release_lock,
     load_locks,
     active_locks,
+    EditLock
 )
 from fastapi.responses import RedirectResponse
 
@@ -290,10 +291,24 @@ async def get_locks() -> Dict[str, LockInfo]:
                         # Lock is still valid, add it to response
                         gem_name = lock_file.stem  # filename without extension
                         star_rating = star_dir.name[0]  # first character of directory name
-                        locks[f"{star_rating}-{gem_name}"] = LockInfo(**lock_data)
+                        gem_path = f"{star_rating}-{gem_name}"
+                        lock_info = LockInfo(**lock_data)
+                        locks[gem_path] = lock_info
+                        
+                        # Update in-memory lock if needed
+                        if gem_path not in active_locks or active_locks[gem_path].expires_at < expires_at:
+                            active_locks[gem_path] = EditLock(
+                                user_email=lock_data['user_email'],
+                                user_name=lock_data['user_name'],
+                                locked_at=datetime.fromisoformat(lock_data['locked_at']),
+                                expires_at=expires_at
+                            )
                     else:
                         # Lock has expired, remove the file
                         lock_file.unlink()
+                        # Also remove from in-memory locks if present
+                        if lock_file.stem in active_locks:
+                            del active_locks[lock_file.stem]
             except (json.JSONDecodeError, KeyError, ValueError, OSError):
                 # Invalid lock file, try to remove it
                 try:

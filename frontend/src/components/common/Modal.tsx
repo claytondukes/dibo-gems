@@ -30,6 +30,8 @@ export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl
       size={size}
       scrollBehavior="inside"
       motionPreset="slideInBottom"
+      closeOnOverlayClick={false}
+      closeOnEsc={false}
     >
       <ModalOverlay backdropFilter="blur(4px)" />
       <ModalContent
@@ -48,7 +50,7 @@ export const Modal = ({ isOpen, onClose, onConfirm, title, children, size = '2xl
         >
           {title}
         </ModalHeader>
-        <ModalCloseButton size="lg" />
+        <ModalCloseButton size="lg" onClick={onClose} />
         
         <ModalBody py={6}>
           {children}
