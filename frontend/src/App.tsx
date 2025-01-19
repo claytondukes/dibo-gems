@@ -6,19 +6,22 @@ import {
   useDisclosure,
   SimpleGrid,
   useColorMode,
-  Box,
   Skeleton,
+  HStack,
+  Spacer,
+  useToast,
+  Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { QueryClient, QueryClientProvider, useQuery, useMutation } from 'react-query';
+import { QueryClient, QueryClientProvider, useQuery, useMutation, useQueryClient } from 'react-query';
 import { GemCard } from './components/GemList/GemCard';
 import { FilterBar } from './components/GemList/FilterBar';
 import { Modal } from './components/common/Modal';
 import { GemForm } from './components/GemEditor/GemForm';
-import { RankTable } from './components/GemEditor/RankTable';
-import { getGems, getGem, updateGem } from './services/api';
+import { getGems, getGem, updateGem, getLocks, LockInfo } from './services/api';
 import { Gem, GemListItem } from './types/gem';
 import { theme } from './theme';
+import { LoginButton } from './components/common/LoginButton';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,8 +41,24 @@ function AppContent() {
   const [searchDesc, setSearchDesc] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
-  const { data: gems = [], isLoading, error } = useQuery<GemListItem[], Error>('gems', getGems);
+  // Fetch gems
+  const { data: gems = [], isLoading: gemsLoading, error: gemsError } = useQuery<GemListItem[], Error>(
+    'gems',
+    getGems
+  );
+
+  // Fetch locks with auto-refresh every 10 seconds
+  const { data: locks = {} } = useQuery<Record<string, LockInfo>>(
+    'locks',
+    getLocks,
+    {
+      refetchInterval: 10000,
+      refetchOnWindowFocus: true,
+    }
+  );
 
   const updateGemMutation = useMutation(
     ({ stars, name, gem }: { stars: number; name: string; gem: Gem }) =>
@@ -48,9 +67,50 @@ function AppContent() {
       onSuccess: () => {
         queryClient.invalidateQueries('gems');
         onClose();
+        toast({
+          title: "Gem Updated",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error Updating Gem",
+          description: error instanceof Error ? error.message : "Unknown error occurred",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       },
     }
   );
+
+  const handleGemClick = async (gem: GemListItem) => {
+    try {
+      const fullGem = await getGem(gem.stars, gem.name);
+      setSelectedGem(fullGem);
+      onOpen();
+    } catch (error) {
+      toast({
+        title: "Error Loading Gem",
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const handleSaveGem = async (updatedGem: Gem) => {
+    if (!updatedGem || !updatedGem.stars || !updatedGem.name) return;
+    
+    updateGemMutation.mutate({
+      stars: updatedGem.stars,
+      name: updatedGem.name,
+      gem: updatedGem
+    });
+  };
 
   const filteredAndSortedGems = gems
     .filter((gem) => {
@@ -75,44 +135,16 @@ function AppContent() {
       }
     });
 
-  const handleEditGem = async (gem: GemListItem) => {
-    try {
-      const fullGem = await getGem(gem.stars, gem.name);
-      if (fullGem) {
-        setSelectedGem(fullGem);
-        onOpen();
-      }
-    } catch (error) {
-      console.error('Error loading gem for edit:', error);
-      // TODO: Add error toast notification
-    }
-  };
-
-  const handleSaveGem = async (gem: Gem) => {
-    if (!gem || !gem.stars || !gem.name) return;
-    
-    try {
-      await updateGemMutation.mutateAsync({
-        stars: gem.stars,
-        name: gem.name,
-        gem,
-      });
-      queryClient.invalidateQueries('gems');
-      onClose();
-    } catch (error) {
-      console.error('Error saving gem:', error);
-      // TODO: Add error toast notification
-    }
-  };
-
   return (
     <Container maxW="container.xl" py={8}>
       <VStack spacing={8} align="stretch">
-        <Box textAlign="center" pb={4}>
-          <Heading size="2xl" bgGradient="linear(to-r, blue.400, purple.500)" bgClip="text">
+        <HStack>
+          <Heading as="h1" size="xl">
             Diablo Immortal Gems
           </Heading>
-        </Box>
+          <Spacer />
+          <LoginButton />
+        </HStack>
         
         <FilterBar
           search={search}
@@ -127,64 +159,40 @@ function AppContent() {
           colorMode={colorMode}
         />
 
-        <SimpleGrid
-          columns={{ base: 1, md: 2, lg: 3 }}
-          spacing={6}
-          w="100%"
-        >
-          {isLoading
-            ? Array(6)
-                .fill(0)
-                .map((_, i) => (
-                  <Skeleton key={i} height="200px" borderRadius="lg" />
-                ))
-            : error
-            ? <Box>Error loading gems: {error instanceof Error ? error.message : 'Unknown error'}</Box>
-            : filteredAndSortedGems.map((gem) => (
-                <GemCard
-                  key={`${gem.stars}-${gem.name}`}
-                  gem={gem}
-                  onEdit={() => handleEditGem(gem)}
-                />
-              ))}
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+          {gemsLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} height="200px" borderRadius="lg" />
+            ))
+          ) : gemsError ? (
+            <Text color="red.500">Error loading gems: {gemsError.message}</Text>
+          ) : (
+            filteredAndSortedGems.map((gem) => (
+              <GemCard
+                key={`${gem.stars}-${gem.name}`}
+                gem={gem}
+                onEdit={() => handleGemClick(gem)}
+                lockInfo={locks[`${gem.stars}-${gem.name}`]}
+              />
+            ))
+          )}
         </SimpleGrid>
       </VStack>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={onClose}
-        title={selectedGem ? `Edit ${selectedGem.name}` : 'Edit Gem'}
-        onConfirm={() => selectedGem && handleSaveGem(selectedGem)}
-      >
-        {selectedGem && (
-          <VStack spacing={6} align="stretch">
-            <GemForm
-              gem={selectedGem}
-              onChange={(field, value) =>
-                setSelectedGem((prev) =>
-                  prev ? { ...prev, [field]: value } : null
-                )
-              }
-            />
-            <RankTable
-              ranks={selectedGem.ranks}
-              onRankChange={(rank, effects) =>
-                setSelectedGem((prev) =>
-                  prev
-                    ? {
-                        ...prev,
-                        ranks: {
-                          ...prev.ranks,
-                          [rank]: { effects },
-                        },
-                      }
-                    : null
-                )
-              }
-            />
-          </VStack>
-        )}
-      </Modal>
+      {selectedGem && (
+        <Modal 
+          isOpen={isOpen} 
+          onClose={onClose} 
+          size="2xl"
+          title={`Edit ${selectedGem.name}`}
+          onConfirm={() => selectedGem && handleSaveGem(selectedGem)}
+        >
+          <GemForm
+            gem={selectedGem}
+            onSubmit={handleSaveGem}
+          />
+        </Modal>
+      )}
     </Container>
   );
 }

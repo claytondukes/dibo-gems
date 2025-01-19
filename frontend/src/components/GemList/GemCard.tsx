@@ -8,16 +8,24 @@ import {
   useColorModeValue,
   Tooltip,
   IconButton,
-  useDisclosure,
   Collapse,
+  useToast,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
 } from '@chakra-ui/react';
-import { EditIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, LockIcon, EditIcon } from '@chakra-ui/icons';
+import { FaClock } from 'react-icons/fa';
 import { GemListItem } from '../../types/gem';
 import { useState } from 'react';
+import { acquireLock } from '../../services/api';
+import { isAuthenticated } from '../../services/auth';
+import { LockInfo } from '../../services/api';
 
 interface GemCardProps {
   gem: GemListItem;
   onEdit: () => void;
+  lockInfo?: LockInfo;
 }
 
 const getGemColors = (stars: number) => {
@@ -43,113 +51,119 @@ const getGemColors = (stars: number) => {
   }
 };
 
-export const GemCard = ({ gem, onEdit }: GemCardProps) => {
-  const { isOpen, onToggle } = useDisclosure();
-  const [isHovered, setIsHovered] = useState(false);
+export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toast = useToast();
   const colors = getGemColors(gem.stars);
   const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue(colors.border, `${colors.border}50`);
+  const borderColor = useColorModeValue(colors.border, `${colors.border}80`);
+
+  const handleEdit = async () => {
+    if (!isAuthenticated()) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to edit gems",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    try {
+      await acquireLock(`${gem.stars}-${gem.name}`);
+      onEdit();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast({
+          title: "Gem is Locked",
+          description: error.message,
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    }
+  };
+
+  // Calculate time remaining if locked
+  const getTimeRemaining = (expiresAt: string) => {
+    const remaining = new Date(expiresAt).getTime() - new Date().getTime();
+    const minutes = Math.max(0, Math.floor(remaining / (1000 * 60)));
+    return `${minutes} min${minutes !== 1 ? 's' : ''}`;
+  };
 
   return (
     <Box
-      borderWidth="2px"
+      borderWidth="1px"
       borderRadius="lg"
-      borderColor={isHovered ? borderColor : 'transparent'}
+      borderColor={lockInfo ? 'red.300' : borderColor}
+      overflow="hidden"
       bg={bgColor}
-      p={4}
       position="relative"
       transition="all 0.2s"
-      _hover={{ 
-        transform: 'translateY(-2px)',
-        shadow: 'lg',
-        borderColor: borderColor,
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      role="group"
+      _hover={{ transform: 'translateY(-2px)', shadow: 'md' }}
     >
-      <Box
-        position="absolute"
-        top={0}
-        left={0}
-        right={0}
-        bottom={0}
-        bgGradient={colors.gradient}
-        opacity={isHovered ? 0.1 : 0}
-        transition="opacity 0.2s"
-        borderRadius="lg"
-        pointerEvents="none"
-      />
-
-      <VStack align="start" spacing={3}>
-        <HStack justify="space-between" width="100%">
-          <Heading size="md" display="flex" alignItems="center" gap={2}>
-            {gem.name}
-            <Tooltip label={`${gem.stars}-Star Legendary Gem`}>
-              <Badge
-                colorScheme={colors.badge}
-                fontSize="sm"
-                px={2}
-                borderRadius="full"
+      <Box p={4}>
+        <VStack align="stretch" spacing={3}>
+          <HStack justify="space-between" align="flex-start">
+            <VStack align="flex-start" spacing={1}>
+              <HStack>
+                <Heading size="md" bgGradient={colors.gradient} bgClip="text">
+                  {gem.name}
+                </Heading>
+                <Badge colorScheme={colors.badge} fontSize="0.8em">
+                  {gem.stars}★
+                </Badge>
+              </HStack>
+              {lockInfo && (
+                <Tag size="sm" colorScheme="red" borderRadius="full">
+                  <TagLeftIcon as={FaClock} />
+                  <TagLabel>
+                    Editing: {lockInfo.user_name} ({getTimeRemaining(lockInfo.expires_at)})
+                  </TagLabel>
+                </Tag>
+              )}
+            </VStack>
+            <HStack>
+              <Tooltip 
+                label={lockInfo ? `Currently being edited by ${lockInfo.user_name}` : "Edit gem"}
+                placement="top"
               >
-                {gem.stars} ★
-              </Badge>
-            </Tooltip>
-          </Heading>
-          <Tooltip label="Edit Gem">
-            <IconButton
-              aria-label="Edit gem"
-              icon={<EditIcon />}
-              size="sm"
-              variant="ghost"
-              onClick={onEdit}
-              opacity={isHovered ? 1 : 0}
-              _groupHover={{ opacity: 1 }}
-            />
-          </Tooltip>
-        </HStack>
+                <IconButton
+                  icon={lockInfo ? <LockIcon /> : <EditIcon />}
+                  aria-label="Edit gem"
+                  size="sm"
+                  onClick={handleEdit}
+                  colorScheme={lockInfo ? "red" : "blue"}
+                  variant={lockInfo ? "outline" : "solid"}
+                />
+              </Tooltip>
+              <IconButton
+                icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                aria-label={isExpanded ? "Show less" : "Show more"}
+                size="sm"
+                onClick={() => setIsExpanded(!isExpanded)}
+              />
+            </HStack>
+          </HStack>
 
-        <HStack width="100%" justify="space-between">
-          <Text
-            color="gray.500"
-            fontSize="sm"
-            cursor="pointer"
-            onClick={onToggle}
-            display="flex"
-            alignItems="center"
-            gap={1}
-          >
-            {isOpen ? (
-              <ChevronUpIcon boxSize={4} />
-            ) : (
-              <ChevronDownIcon boxSize={4} />
-            )}
-            {isOpen ? 'Show less' : 'Show more'}
+          <Text fontSize="sm" color="gray.500" noOfLines={isExpanded ? undefined : 2}>
+            {gem.description}
           </Text>
-        </HStack>
 
-        <Collapse in={isOpen}>
-          <VStack align="start" spacing={2} pt={2}>
-            <Text fontSize="sm" color="gray.600">
-              {gem.description}
-            </Text>
-            {gem.effects.length > 0 && (
-              <Box>
-                <Text fontSize="sm" fontWeight="semibold" mb={1}>
-                  Base Effects:
+          <Collapse in={isExpanded}>
+            <VStack align="flex-start" mt={2} spacing={2}>
+              <Text fontWeight="bold">Effects:</Text>
+              {gem.effects.map((effect, index) => (
+                <Text key={index} fontSize="sm">
+                  • {effect}
                 </Text>
-                <VStack align="start" spacing={1}>
-                  {gem.effects.map((effect, index) => (
-                    <Text key={index} fontSize="sm" color="gray.600">
-                      • {effect}
-                    </Text>
-                  ))}
-                </VStack>
-              </Box>
-            )}
-          </VStack>
-        </Collapse>
-      </VStack>
+              ))}
+            </VStack>
+          </Collapse>
+        </VStack>
+      </Box>
     </Box>
   );
 };

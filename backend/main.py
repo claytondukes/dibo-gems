@@ -1,13 +1,24 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from typing import Dict, List, Optional
-import json
 import os
+import json
+from datetime import datetime, timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 from models.gem import Gem, GemListItem
 from models.gem_types import GemEffectType
+from models.auth import TokenResponse, UserInfo
+from auth.oauth import (
+    verify_google_token,
+    create_access_token,
+    get_current_user,
+    acquire_lock,
+    release_lock,
+    load_locks,
+    active_locks,
+)
 
 # Load environment variables
 load_dotenv()
@@ -15,21 +26,25 @@ load_dotenv()
 # Initialize FastAPI app with metadata
 app = FastAPI(
     title="Diablo Immortal Gems API",
-    version=os.getenv("API_VERSION", "1.0.0"),
     description="API for managing Diablo Immortal gem data"
 )
 
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    print(f"Request: {request.method} {request.url}")
+    print(f"Headers: {request.headers}")
+    response = await call_next(request)
+    print(f"Response status: {response.status_code}")
+    return response
+
 # Enable CORS for configured origins
-origins = os.getenv("CORS_ORIGINS", "*")
-if origins == "*":
-    allow_origins = ["*"]  # Allow all origins in development
-else:
-    allow_origins = origins.split(",")
+origins = os.getenv("CORS_ORIGINS", "https://dibo-gems.dukes.io")
+print(f"CORS_ORIGINS env var: {origins}")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
-    allow_credentials=False,  # Set to False since we're using * for origins
+    allow_origins=[origins],  
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -93,10 +108,32 @@ class GemListItem(BaseModel):
     class Config:
         extra = "allow"
 
+class LockInfo(BaseModel):
+    """Information about a lock."""
+    user_email: str = Field(..., description="Email of the user who acquired the lock")
+    user_name: str = Field(..., description="Name of the user who acquired the lock")
+    locked_at: str = Field(..., description="Timestamp when the lock was acquired")
+    expires_at: str = Field(..., description="Timestamp when the lock expires")
+
+    class Config:
+        extra = "allow"
+
+class GoogleAuthRequest(BaseModel):
+    token: str = Field(..., description="Google OAuth token")
+
 def convert_to_snake_case(s: str) -> str:
-    """Convert a string to snake_case."""
-    s = s.lower().replace(" ", "_").replace("'", "").replace("&", "and")
-    return ''.join(c for c in s if c.isalnum() or c == '_')
+    """Convert a string to snake_case, handling gem names correctly."""
+    # Remove the rank prefix (e.g. "1-", "2-", "5-")
+    if s[0].isdigit() and s[1] == '-':
+        s = s[2:]
+    
+    # Convert to lowercase and replace special characters
+    s = s.lower().replace(" ", "_").replace("'", "").replace("&", "and").replace("-", "_")
+    
+    # Keep only alphanumeric and underscore characters
+    s = ''.join(c for c in s if c.isalnum() or c == '_')
+    
+    return s
 
 def load_gem(file_path: Path) -> Gem:
     """Load a gem from a JSON file."""
@@ -118,6 +155,144 @@ def save_gem(file_path: Path, gem: Gem) -> None:
             json.dump(data, f, indent=2)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error saving gem: {str(e)}")
+
+# Load locks on startup
+load_locks()
+
+@app.post("/auth/google", response_model=TokenResponse)
+async def google_auth(request: GoogleAuthRequest):
+    """Authenticate with Google OAuth token."""
+    user = verify_google_token(request.token)
+    access_token = create_access_token(user)
+    return TokenResponse(access_token=access_token, token_type="bearer")
+
+@app.post("/gems/{gem_path}/lock")
+async def acquire_lock(
+    gem_path: str,
+    current_user: UserInfo = Depends(get_current_user)
+) -> LockInfo:
+    """Acquire a lock for editing a gem."""
+    # Extract star rating and convert name to snake case
+    if not gem_path[0].isdigit():
+        raise HTTPException(status_code=400, detail="Invalid gem path format")
+    
+    star_rating = f"{gem_path[0]}star"
+    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
+    
+    # Build paths
+    gem_dir = os.path.join(DATA_DIR, star_rating)
+    gem_path = os.path.join(gem_dir, f"{gem_name}.json")
+    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
+    
+    # Check if file exists
+    if not os.path.exists(gem_path):
+        raise HTTPException(status_code=404, detail="Gem not found")
+    
+    # Check if already locked
+    if os.path.exists(lock_path):
+        try:
+            with open(lock_path, 'r') as f:
+                lock_info = json.load(f)
+                expires_at = datetime.fromisoformat(lock_info['expires_at'])
+                if expires_at > datetime.now():
+                    raise HTTPException(
+                        status_code=423,
+                        detail=f"Gem is currently being edited by {lock_info['user_name']} (expires in {(expires_at - datetime.now()).seconds} seconds)"
+                    )
+        except (json.JSONDecodeError, KeyError, ValueError):
+            # Invalid lock file, we can overwrite it
+            pass
+    
+    # Create lock
+    lock_info = LockInfo(
+        user_email=current_user.email,
+        user_name=current_user.name,
+        locked_at=datetime.now(),
+        expires_at=datetime.now() + timedelta(minutes=5)
+    )
+    
+    # Save lock
+    with open(lock_path, 'w') as f:
+        json.dump(lock_info.model_dump(), f)
+    
+    return lock_info
+
+@app.delete("/gems/{gem_path}/lock")
+async def release_lock(
+    gem_path: str,
+    current_user: UserInfo = Depends(get_current_user)
+) -> None:
+    """Release a lock on a gem."""
+    # Extract star rating and convert name to snake case
+    if not gem_path[0].isdigit():
+        raise HTTPException(status_code=400, detail="Invalid gem path format")
+    
+    star_rating = f"{gem_path[0]}star"
+    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
+    
+    # Build paths
+    gem_dir = os.path.join(DATA_DIR, star_rating)
+    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
+    
+    # Check if file exists
+    if not os.path.exists(lock_path):
+        raise HTTPException(status_code=404, detail="Lock not found")
+    
+    # Check if user owns the lock
+    try:
+        with open(lock_path, 'r') as f:
+            lock_info = json.load(f)
+            if lock_info['user_email'] != current_user.email:
+                raise HTTPException(
+                    status_code=403,
+                    detail="You don't own this lock"
+                )
+    except (json.JSONDecodeError, KeyError):
+        # Invalid lock file, we can delete it
+        pass
+    
+    # Delete lock
+    os.remove(lock_path)
+
+@app.get("/gems/locks", response_model=Dict[str, dict])
+async def get_locks():
+    """Get all current locks."""
+    print("Getting locks...")  # Debug print
+    try:
+        locks = {}
+        data_dir = os.getenv("DATA_DIR", "/app/data")
+        print(f"Looking for locks in {data_dir}")  # Debug print
+        
+        if not os.path.exists(data_dir):
+            print(f"Data directory {data_dir} does not exist!")
+            return {}
+        
+        # List all json files to find potential locks
+        for file_path in Path(data_dir).rglob("*.json"):
+            gem_path = f"{file_path.parent.name}-{file_path.stem}"
+            lock_path = file_path.with_suffix('.lock')
+            
+            if lock_path.exists():
+                try:
+                    with open(lock_path, 'r') as f:
+                        lock_info = json.load(f)
+                        # Only include if lock hasn't expired
+                        expires_at = datetime.fromisoformat(lock_info['expires_at'])
+                        if expires_at > datetime.now():
+                            locks[gem_path] = lock_info
+                        else:
+                            # Clean up expired lock
+                            os.remove(lock_path)
+                except (json.JSONDecodeError, KeyError, ValueError) as e:
+                    print(f"Error reading lock file {lock_path}: {e}")  # Debug print
+                    # Invalid lock file, remove it
+                    os.remove(lock_path)
+        
+        print(f"Found locks: {locks}")  # Debug print
+        return locks
+    except Exception as e:
+        print(f"Error in get_locks: {e}")  # Debug print
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/gems", response_model=List[GemListItem])
 def list_gems() -> List[GemListItem]:
@@ -163,11 +338,32 @@ def get_gem(gem_path: str) -> Gem:
     return load_gem(file_path)
 
 @app.put("/gems/{gem_path:path}", response_model=Gem)
-def update_gem(gem_path: str, gem: Gem) -> Gem:
+async def update_gem(gem_path: str, gem: Gem, current_user: UserInfo = Depends(get_current_user)):
     """Update a specific gem."""
-    file_path = DATA_DIR / gem_path
-    save_gem(file_path, gem)
-    return gem
+    # Check if user has the lock
+    if gem_path not in active_locks or active_locks[gem_path].user_email != current_user.email:
+        raise HTTPException(
+            status_code=403,
+            detail="You must acquire a lock before editing this gem"
+        )
+    
+    try:
+        # Convert the path to snake_case
+        file_name = convert_to_snake_case(gem_path)
+        file_path = Path(f"data/gems/{file_name}.json")
+        
+        # Ensure the gem exists
+        if not file_path.exists():
+            raise HTTPException(status_code=404, detail="Gem not found")
+        
+        # Save the gem
+        save_gem(file_path, gem)
+        return {"status": "success", "message": "Gem updated successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Release the lock after update
+        release_lock(gem_path, current_user)
 
 @app.get("/effect-types")
 def get_effect_types() -> Dict[str, List[str]]:
@@ -219,3 +415,6 @@ async def export_gems():
             status_code=500,
             detail=f"Error exporting gems: {str(e)}"
         )
+
+from datetime import datetime
+from datetime import timedelta
