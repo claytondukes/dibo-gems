@@ -5,6 +5,7 @@
   },
   "name": "Berserker's Eye",
   "stars": "1",
+  "description": "Increases all damage you deal by X% and increases your Critical Hit Chance by X%, but also increases all damage you take by X%.",
   "ranks": {
     "1": {
       "effects": [
@@ -14,7 +15,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 5.0
+          "value": 5
         },
         {
           "type": "proc_effect",
@@ -22,7 +23,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 5.0
+          "value": 5
         }
       ]
     },
@@ -58,7 +59,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 8.0
+          "value": 8
         }
       ]
     },
@@ -70,7 +71,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 1.0
+          "value": 1
         }
       ]
     },
@@ -82,7 +83,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 10.0
+          "value": 10
         }
       ]
     },
@@ -106,7 +107,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 13.0
+          "value": 13
         }
       ]
     },
@@ -118,7 +119,7 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 2.0
+          "value": 2
         }
       ]
     },
@@ -130,10 +131,9 @@
           "conditions": [
             "on_attack"
           ],
-          "value": 16.0
+          "value": 16
         }
       ]
     }
-  },
-  "description": "Increases all damage you deal by X% and increases your Critical Hit Chance by X%, but also increases all damage you take by X%."
+  }
 }
