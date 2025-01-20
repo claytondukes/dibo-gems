@@ -94,39 +94,6 @@ export const getGem = async (stars: number, name: string): Promise<Gem> => {
   }
 };
 
-export const acquireLock = async (gemPath: string) => {
-  try {
-    console.log('Acquiring lock...');
-    // Extract star rating and name
-    const [prefix, ...nameParts] = gemPath.split('-');
-    const name = nameParts.join('-');
-    const snakePath = `${prefix}-${toSnakeCase(name)}`;
-    
-    const { data } = await api.post(`/gems/${snakePath}/lock`);
-    console.log('Lock acquired:', data);
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 423) {
-      // Gem is locked by another user
-      throw new Error(error.response.data.detail);
-    }
-    throw error;
-  }
-};
-
-export const releaseLock = async (gemPath: string) => {
-  try {
-    console.log('Releasing lock...');
-    // The gemPath is already in the correct format (e.g. "1-berserkers_eye")
-    const { data } = await api.delete(`/gems/${gemPath}/lock`);
-    console.log('Lock released:', data);
-    return data;
-  } catch (error) {
-    console.error('Error releasing lock:', error);
-    throw error;
-  }
-};
-
 export const updateGem = async (stars: number, name: string, gem: Gem): Promise<Gem> => {
   try {
     console.log('Updating gem...');
@@ -135,10 +102,6 @@ export const updateGem = async (stars: number, name: string, gem: Gem): Promise<
     console.log('Gem updated:', response.data);
     return response.data;
   } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 423) {
-      // Rethrow lock errors with the user-friendly message
-      throw new Error(error.response.data.detail);
-    }
     throw error;
   }
 };
@@ -166,22 +129,5 @@ export const exportGems = async () => {
     const err = error as AxiosError;
     console.error('Error exporting gems:', err);
     throw new Error(`Failed to export gems: ${err.message}`);
-  }
-};
-
-export interface LockInfo {
-  user_email: string;
-  user_name: string;
-}
-
-export const getLocks = async (): Promise<Record<string, LockInfo>> => {
-  try {
-    console.log('Fetching locks...');
-    const { data } = await api.get('/gems/locks');
-    console.log('Locks fetched:', data);
-    return data;
-  } catch (error) {
-    console.error('Error fetching locks:', error);
-    return {};
   }
 };

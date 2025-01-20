@@ -6,23 +6,18 @@ import os
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from typing import Dict, Optional
-from models.auth import UserInfo, EditLock, TokenPayload
+from models.auth import UserInfo, TokenPayload
 import json
 from pathlib import Path
 import uuid
 
 # Constants
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.environ.get("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
-LOCK_EXPIRE_MINUTES = int(os.environ.get("LOCK_EXPIRE_MINUTES", "30"))
 ALGORITHM = os.environ.get("JWT_ALGORITHM", "HS256")
 DATA_DIR = os.environ.get("DATA_DIR")
 
 # Initialize OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-# Lock management
-active_locks: Dict[str, EditLock] = {}
-LOCKS_FILE = Path("data/locks.json")
 
 def verify_google_token(token: str) -> UserInfo:
     """Verifies Google's ID token and returns user info."""
@@ -83,76 +78,3 @@ def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInfo:
             status_code=401,
             detail="Invalid token"
         )
-
-def acquire_lock(gem_path: str, user: UserInfo) -> Optional[EditLock]:
-    """Try to acquire an edit lock for a gem. Returns None if already locked."""
-    now = datetime.utcnow()
-    
-    # Clean expired locks
-    clean_expired_locks()
-    
-    # Check if gem is locked
-    if gem_path in active_locks:
-        return None
-        
-    # Create new lock
-    lock = EditLock(
-        user_email=user.email,
-        user_name=user.name,
-        locked_at=now,
-        expires_at=now + timedelta(minutes=LOCK_EXPIRE_MINUTES)
-    )
-    active_locks[gem_path] = lock
-    save_locks()
-    return lock
-
-def release_lock(gem_path: str, user: UserInfo) -> bool:
-    """Release a lock if it belongs to the user."""
-    if gem_path in active_locks and active_locks[gem_path].user_email == user.email:
-        del active_locks[gem_path]
-        save_locks()
-        return True
-    return False
-
-def clean_expired_locks():
-    """Remove expired locks."""
-    now = datetime.utcnow()
-    expired = [
-        path for path, lock in active_locks.items()
-        if lock.expires_at < now
-    ]
-    for path in expired:
-        # Remove from memory
-        del active_locks[path]
-        
-        # Remove lock file
-        try:
-            # Extract star rating and name
-            star_rating = path[0]
-            gem_name = path[2:]  # Skip the "N-" prefix
-            lock_path = os.path.join(DATA_DIR, f"{star_rating}star", f"{gem_name}.lock")
-            if os.path.exists(lock_path):
-                os.remove(lock_path)
-        except (OSError, IndexError):
-            pass
-            
-    if expired:
-        save_locks()
-
-def save_locks():
-    """Save locks to file for persistence."""
-    LOCKS_FILE.parent.mkdir(exist_ok=True)
-    with open(LOCKS_FILE, 'w') as f:
-        json.dump({
-            path: lock.model_dump() 
-            for path, lock in active_locks.items()
-        }, f)
-
-def load_locks():
-    """Load locks from file on startup."""
-    if LOCKS_FILE.exists():
-        with open(LOCKS_FILE) as f:
-            data = json.load(f)
-            for path, lock_data in data.items():
-                active_locks[path] = EditLock(**lock_data)
-    clean_expired_locks()

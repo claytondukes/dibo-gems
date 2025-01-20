@@ -13,12 +13,7 @@ from models.auth import TokenResponse, UserInfo
 from auth.oauth import (
     verify_google_token,
     create_access_token,
-    get_current_user,
-    acquire_lock,
-    release_lock,
-    load_locks,
-    active_locks,
-    EditLock
+    get_current_user
 )
 from fastapi.responses import RedirectResponse
 
@@ -120,14 +115,6 @@ class GemListItem(BaseModel):
     class Config:
         extra = "allow"
 
-class LockInfo(BaseModel):
-    """Information about a lock."""
-    user_email: str = Field(..., description="Email of the user who acquired the lock")
-    user_name: str = Field(..., description="Name of the user who acquired the lock")
-
-    class Config:
-        extra = "allow"
-
 class GoogleAuthRequest(BaseModel):
     """Request model for Google OAuth authentication."""
     credential: str = Field(..., description="Google OAuth credential token")
@@ -167,128 +154,12 @@ def save_gem(file_path: Path, gem: Gem) -> None:
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error saving gem: {str(e)}")
 
-# Load locks on startup
-load_locks()
-
 @app.post("/auth/google", response_model=TokenResponse)
 async def google_auth(request: GoogleAuthRequest):
     """Authenticate with Google OAuth token."""
     user = verify_google_token(request.credential)
     access_token = create_access_token(user)
     return TokenResponse(access_token=access_token, token_type="bearer")
-
-@app.post("/gems/{gem_path}/lock")
-async def acquire_lock(
-    gem_path: str,
-    current_user: UserInfo = Depends(get_current_user)
-) -> LockInfo:
-    """Acquire a lock for editing a gem."""
-    # Extract star rating and convert name to snake case
-    if not gem_path[0].isdigit():
-        raise HTTPException(status_code=400, detail="Invalid gem path format")
-    
-    star_rating = f"{gem_path[0]}star"
-    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
-    
-    # Build paths
-    gem_dir = os.path.join(DATA_DIR, star_rating)
-    gem_path = os.path.join(gem_dir, f"{gem_name}.json")
-    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
-    
-    # Check if file exists
-    if not os.path.exists(gem_path):
-        raise HTTPException(status_code=404, detail="Gem not found")
-    
-    # Check if already locked
-    if os.path.exists(lock_path):
-        try:
-            with open(lock_path, 'r') as f:
-                lock_info = json.load(f)
-                raise HTTPException(
-                    status_code=423,
-                    detail=f"Gem is currently being edited by {lock_info['user_name']}"
-                )
-        except (json.JSONDecodeError, KeyError):
-            # Invalid lock file, we can overwrite it
-            pass
-    
-    # Create lock
-    lock_info = LockInfo(
-        user_email=current_user.email,
-        user_name=current_user.name
-    )
-    
-    # Save lock
-    with open(lock_path, 'w') as f:
-        json.dump(lock_info.model_dump(), f)
-    
-    return lock_info
-
-@app.delete("/gems/{gem_path}/lock")
-async def release_lock(
-    gem_path: str,
-    current_user: UserInfo = Depends(get_current_user)
-) -> None:
-    """Release a lock on a gem."""
-    # Extract star rating and convert name to snake case
-    if not gem_path[0].isdigit():
-        raise HTTPException(status_code=400, detail="Invalid gem path format")
-    
-    star_rating = f"{gem_path[0]}star"
-    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
-    
-    # Build paths
-    gem_dir = os.path.join(DATA_DIR, star_rating)
-    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
-    
-    # Check if file exists and belongs to user
-    if os.path.exists(lock_path):
-        try:
-            with open(lock_path, 'r') as f:
-                lock_info = json.load(f)
-                if lock_info['user_email'] != current_user.email:
-                    raise HTTPException(
-                        status_code=403,
-                        detail="You don't own this lock"
-                    )
-                os.remove(lock_path)
-        except (json.JSONDecodeError, KeyError):
-            # Invalid lock file, just remove it
-            os.remove(lock_path)
-    # If lock doesn't exist, that's fine - nothing to do
-
-@app.get("/gems/locks")
-async def get_locks() -> Dict[str, LockInfo]:
-    """Get all current locks."""
-    print("Getting locks...")
-    print(f"Looking for locks in {DATA_DIR}")
-    
-    locks = {}
-    # Walk through all star rating directories
-    for star_dir in Path(DATA_DIR).glob("*star"):
-        if not star_dir.is_dir():
-            continue
-            
-        # Look for .lock files
-        for lock_file in star_dir.glob("*.lock"):
-            try:
-                with open(lock_file, 'r') as f:
-                    lock_data = json.load(f)
-                    gem_name = lock_file.stem  # filename without extension
-                    star_rating = star_dir.name[0]  # first character of directory name
-                    gem_path = f"{star_rating}-{gem_name}"
-                    lock_info = LockInfo(**lock_data)
-                    locks[gem_path] = lock_info
-            except (json.JSONDecodeError, KeyError):
-                # Invalid lock file, try to remove it
-                try:
-                    lock_file.unlink()
-                except OSError:
-                    pass
-                continue
-    
-    print(f"Found locks: {locks}")
-    return locks
 
 @app.get("/gems", response_model=List[GemListItem])
 def list_gems() -> List[GemListItem]:
@@ -345,29 +216,6 @@ async def update_gem(gem_path: str, gem: Gem, current_user: UserInfo = Depends(g
     
     # Build paths
     gem_dir = os.path.join(DATA_DIR, star_rating)
-    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
-    
-    # Check if user has the lock
-    if not os.path.exists(lock_path):
-        raise HTTPException(
-            status_code=403,
-            detail="You must acquire a lock before editing this gem"
-        )
-    
-    try:
-        with open(lock_path, 'r') as f:
-            lock_info = json.load(f)
-            if lock_info['user_email'] != current_user.email:
-                raise HTTPException(
-                    status_code=403,
-                    detail="You don't own the lock for this gem"
-                )
-    except (json.JSONDecodeError, KeyError):
-        # Invalid lock file
-        raise HTTPException(
-            status_code=403,
-            detail="Lock file is invalid. Please try acquiring the lock again."
-        )
     
     try:
         # Build file path
@@ -382,9 +230,6 @@ async def update_gem(gem_path: str, gem: Gem, current_user: UserInfo = Depends(g
         return gem
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        # Release the lock after update
-        release_lock(gem_path, current_user)
 
 @app.get("/effect-types")
 def get_effect_types() -> Dict[str, List[str]]:
