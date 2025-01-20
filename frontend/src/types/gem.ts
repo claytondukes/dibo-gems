@@ -24,7 +24,7 @@ export enum GemCondition {
 export type GemEffect = {
   type: GemEffectType;
   description: string;
-  conditions?: GemCondition[];
+  condition: GemCondition;
   value?: number;
   duration?: number;
   cooldown?: number;

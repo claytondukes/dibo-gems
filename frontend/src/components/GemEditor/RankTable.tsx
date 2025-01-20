@@ -13,10 +13,11 @@ import {
   Button,
   HStack,
   Input,
-  Select,
+  Textarea,
 } from '@chakra-ui/react';
+import { Select as ChakraSelect } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
-import { GemRank, GemEffectType } from '../../types/gem';
+import { GemRank, GemEffectType, GemCondition } from '../../types/gem';
 import { getEffectTypeTag, effectTypeLabels } from './effectTypeUtils';
 
 interface RankTableProps {
@@ -24,20 +25,38 @@ interface RankTableProps {
   onRankChange: (rank: string, effects: any[]) => void;
 }
 
+interface ConditionOption {
+  value: GemCondition;
+  label: string;
+}
+
+const conditionOptions: ConditionOption[] = [
+  { value: GemCondition.ON_ATTACK, label: 'On Attack' },
+  { value: GemCondition.ON_DASH, label: 'On Dash' },
+  { value: GemCondition.ON_SKILL, label: 'On Skill' },
+  { value: GemCondition.ON_DAMAGE_TAKEN, label: 'On Damage Taken' },
+  { value: GemCondition.ON_KILL, label: 'On Kill' },
+  { value: GemCondition.LIFE_THRESHOLD, label: 'Life Threshold' },
+  { value: GemCondition.COOLDOWN_RESTRICTION, label: 'Cooldown Restriction' },
+  { value: GemCondition.RESONANCE, label: 'Resonance' },
+  { value: GemCondition.COMBAT_RATING, label: 'Combat Rating' }
+];
+
 export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
   const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const bgColor = useColorModeValue('gray.50', 'gray.700');
+  const inputBgColor = useColorModeValue('gray.50', 'gray.700');
   const headerBgColor = useColorModeValue('gray.100', 'gray.600');
+  const textColor = useColorModeValue('gray.800', 'white');
 
   const addEffect = (rank: string) => {
     const currentEffects = ranks[rank]?.effects || [];
     onRankChange(rank, [
       ...currentEffects,
-      { type: GemEffectType.PROC, description: '', conditions: [], value: 0 },
+      { type: GemEffectType.PROC, description: '', condition: GemCondition.ON_ATTACK, value: 0 },
     ]);
   };
 
-  const updateEffect = (rank: string, index: number, field: string, value: string | number | string[]) => {
+  const updateEffect = (rank: string, index: number, field: string, value: any) => {
     const currentEffects = [...(ranks[rank]?.effects || [])];
     currentEffects[index] = { ...currentEffects[index], [field]: value };
     onRankChange(rank, currentEffects);
@@ -68,90 +87,169 @@ export const RankTable = ({ ranks, onRankChange }: RankTableProps) => {
             </HStack>
           </Box>
 
-          <Box p={4} overflowX="auto">
-            <Table variant="simple" size="sm" sx={{ tableLayout: 'fixed' }}>
-              <Thead>
-                <Tr>
-                  <Th width="25%" minWidth="150px">Type</Th>
-                  <Th width="40%" minWidth="200px">Description</Th>
-                  <Th width="20%" minWidth="120px">Conditions</Th>
-                  <Th width="10%" minWidth="80px">Value</Th>
-                  <Th width="5%" minWidth="40px"></Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {ranks[rank]?.effects?.map((effect, index) => (
-                  <Tr key={index}>
-                    <Td>
-                      <HStack spacing={2}>
-                        {getEffectTypeTag(effect.type as GemEffectType)}
-                        <Select
-                          size="sm"
-                          value={effect.type}
-                          onChange={(e) =>
-                            updateEffect(rank, index, 'type', e.target.value)
-                          }
-                          bg={bgColor}
-                        >
-                          {Object.entries(effectTypeLabels).map(([type, label]) => (
-                            <option key={type} value={type}>{label}</option>
-                          ))}
-                        </Select>
-                      </HStack>
-                    </Td>
-                    <Td>
-                      <Input
-                        size="sm"
-                        value={effect.description}
-                        onChange={(e) =>
-                          updateEffect(rank, index, 'description', e.target.value)
-                        }
-                        bg={bgColor}
-                      />
-                    </Td>
-                    <Td>
-                      <Select
-                        size="sm"
-                        value={effect.conditions?.[0] || ''}
-                        onChange={(e) =>
-                          updateEffect(rank, index, 'conditions', [e.target.value])
-                        }
-                        bg={bgColor}
-                      >
-                        <option value="">Select Condition</option>
-                        <option value="on_attack">On Attack</option>
-                        <option value="on_hit">On Hit</option>
-                        <option value="on_kill">On Kill</option>
-                        <option value="on_dodge">On Dodge</option>
-                        <option value="passive">Passive</option>
-                      </Select>
-                    </Td>
-                    <Td>
-                      <Input
-                        size="sm"
-                        type="number"
-                        step="0.1"
-                        value={effect.value || 0}
-                        onChange={(e) =>
-                          updateEffect(rank, index, 'value', parseFloat(e.target.value))
-                        }
-                        bg={bgColor}
-                      />
-                    </Td>
-                    <Td>
-                      <IconButton
-                        aria-label="Remove effect"
-                        icon={<DeleteIcon />}
-                        size="sm"
-                        variant="ghost"
-                        colorScheme="red"
-                        onClick={() => removeEffect(rank, index)}
-                      />
-                    </Td>
+          <Box p={4} overflowX="auto" width="100%">
+            <Box minWidth="900px">
+              <Table variant="simple" size="sm" layout="fixed" width="100%" sx={{
+                'td, th': {
+                  whiteSpace: 'normal',
+                  wordWrap: 'break-word',
+                  padding: '8px',
+                },
+                '.description-row td': {
+                  borderBottom: 'none',
+                  paddingBottom: '4px',
+                },
+                '.fields-row td': {
+                  paddingTop: '4px',
+                },
+                'td.type-cell': { // Increased for "Damage Effect" etc
+                  width: '200px',
+                  minWidth: '200px',
+                },
+                'td.condition-cell': { // Increased for "On Attack" etc
+                  width: '180px',
+                  minWidth: '180px',
+                },
+                'td.number-cell': {
+                  width: '70px',
+                  minWidth: '70px',
+                },
+                'td.action-cell': {
+                  width: '40px',
+                  minWidth: '40px',
+                  padding: '4px',
+                }
+              }}>
+                <Thead bg={headerBgColor}>
+                  <Tr>
+                    <Th color={textColor}>Type</Th>
+                    <Th color={textColor}>Condition</Th>
+                    <Th color={textColor}>Value</Th>
+                    <Th color={textColor}>Duration</Th>
+                    <Th color={textColor}>Cooldown</Th>
+                    <Th></Th>
                   </Tr>
-                ))}
-              </Tbody>
-            </Table>
+                </Thead>
+                <Tbody>
+                  {ranks[rank]?.effects?.map((effect, index) => (
+                    <>
+                      <Tr key={`${index}-description`} className="description-row">
+                        <Td colSpan={6}>
+                          <Textarea
+                            size="sm"
+                            value={effect.description}
+                            onChange={(e) =>
+                              updateEffect(rank, index, 'description', e.target.value)
+                            }
+                            bg={inputBgColor}
+                            color={textColor}
+                            rows={3}
+                            resize="none"
+                            placeholder="Effect description..."
+                          />
+                        </Td>
+                      </Tr>
+                      <Tr key={`${index}-fields`} className="fields-row">
+                        <Td className="type-cell">
+                          <HStack spacing={2}>
+                            {getEffectTypeTag(effect.type as GemEffectType)}
+                            <ChakraSelect
+                              size="sm"
+                              value={effect.type}
+                              onChange={(e) =>
+                                updateEffect(rank, index, 'type', e.target.value)
+                              }
+                              bg={inputBgColor}
+                              color={textColor}
+                            >
+                              {Object.entries(effectTypeLabels).map(([type, label]) => (
+                                <option key={type} value={type}>{label}</option>
+                              ))}
+                            </ChakraSelect>
+                          </HStack>
+                        </Td>
+                        <Td className="condition-cell">
+                          <ChakraSelect
+                            size="sm"
+                            value={effect.condition}
+                            onChange={(e) =>
+                              updateEffect(rank, index, 'condition', e.target.value)
+                            }
+                            bg={inputBgColor}
+                            color={textColor}
+                          >
+                            {conditionOptions.map((option) => (
+                              <option key={option.value} value={option.value}>{option.label}</option>
+                            ))}
+                          </ChakraSelect>
+                        </Td>
+                        <Td className="number-cell">
+                          <Input
+                            size="sm"
+                            type="number"
+                            step="1"
+                            value={effect.value || 0}
+                            onChange={(e) =>
+                              updateEffect(rank, index, 'value', parseFloat(e.target.value))
+                            }
+                            bg={inputBgColor}
+                            color={textColor}
+                            min={0}
+                            max={9999}
+                            textAlign="right"
+                            paddingRight="4px"
+                          />
+                        </Td>
+                        <Td className="number-cell">
+                          <Input
+                            size="sm"
+                            type="number"
+                            step="1"
+                            value={effect.duration || 0}
+                            onChange={(e) =>
+                              updateEffect(rank, index, 'duration', parseFloat(e.target.value))
+                            }
+                            bg={inputBgColor}
+                            color={textColor}
+                            min={0}
+                            max={999}
+                            textAlign="right"
+                            paddingRight="4px"
+                          />
+                        </Td>
+                        <Td className="number-cell">
+                          <Input
+                            size="sm"
+                            type="number"
+                            step="1"
+                            value={effect.cooldown || 0}
+                            onChange={(e) =>
+                              updateEffect(rank, index, 'cooldown', parseFloat(e.target.value))
+                            }
+                            bg={inputBgColor}
+                            color={textColor}
+                            min={0}
+                            max={9999}
+                            textAlign="right"
+                            paddingRight="4px"
+                          />
+                        </Td>
+                        <Td className="action-cell">
+                          <IconButton
+                            aria-label="Remove effect"
+                            icon={<DeleteIcon />}
+                            size="sm"
+                            variant="ghost"
+                            colorScheme="red"
+                            onClick={() => removeEffect(rank, index)}
+                          />
+                        </Td>
+                      </Tr>
+                    </>
+                  ))}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
         </Box>
       ))}
