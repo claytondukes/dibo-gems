@@ -50,13 +50,12 @@ function AppContent() {
     getGems
   );
 
-  // Fetch locks with auto-refresh every 10 seconds
-  const { data: locks = {} } = useQuery<Record<string, LockInfo>>(
+  // Fetch locks only when needed
+  const { data: locks = {}, refetch: refetchLocks } = useQuery<Record<string, LockInfo>>(
     'locks',
     getLocks,
     {
-      refetchInterval: 10000,
-      refetchOnWindowFocus: true,
+      enabled: false, // Don't fetch automatically
     }
   );
 
@@ -64,9 +63,18 @@ function AppContent() {
     ({ stars, name, gem }: { stars: number; name: string; gem: Gem }) =>
       updateGem(stars, name, gem),
     {
-      onSuccess: () => {
+      onSuccess: async () => {
+        if (selectedGem) {
+          try {
+            await releaseLock(`${selectedGem.stars}-${selectedGem.name}`);
+            queryClient.invalidateQueries('locks');
+          } catch (error) {
+            console.error('Error releasing lock:', error);
+          }
+        }
         queryClient.invalidateQueries('gems');
         onClose();
+        setSelectedGem(null);
         toast({
           title: "Gem Updated",
           status: "success",
@@ -88,6 +96,8 @@ function AppContent() {
 
   const handleGemClick = async (gem: GemListItem) => {
     try {
+      // Fetch latest locks before attempting to edit
+      await refetchLocks();
       const fullGem = await getGem(gem.stars, gem.name);
       setSelectedGem(fullGem);
       onOpen();
@@ -113,14 +123,6 @@ function AppContent() {
   };
 
   const handleCloseEditor = async () => {
-    if (selectedGem) {
-      try {
-        await releaseLock(`${selectedGem.stars}-${selectedGem.name}`);
-        queryClient.invalidateQueries('locks');
-      } catch (error) {
-        console.error('Error releasing lock:', error);
-      }
-    }
     setSelectedGem(null);
     onClose();
   };

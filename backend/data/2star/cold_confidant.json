@@ -5,7 +5,7 @@
   },
   "name": "Cold Confidant",
   "stars": "2",
-  "type": "summon_damage",
+  "description": "TODO: Rank information needed",
   "ranks": {
     "1": {
       "effects": [
@@ -15,8 +15,8 @@
           "conditions": [
             "cooldown_restriction"
           ],
-          "value": 300.0,
-          "duration": 6.0
+          "value": 300,
+          "duration": 6
         }
       ]
     },
@@ -28,8 +28,8 @@
           "conditions": [
             "cooldown_restriction"
           ],
-          "value": 300.0,
-          "duration": 6.0
+          "value": 300,
+          "duration": 6
         }
       ]
     },
@@ -41,8 +41,8 @@
           "conditions": [
             "cooldown_restriction"
           ],
-          "value": 350.0,
-          "duration": 6.0
+          "value": 350,
+          "duration": 6
         }
       ]
     },
@@ -110,6 +110,7 @@
       ]
     }
   },
+  "type": "summon_damage",
   "max_rank": 10,
   "magic_find": "5",
   "max_effect": "TODO: Max effect information needed (ranks 4-10 unknown)",
@@ -120,6 +121,5 @@
   "synergy_categories": [
     "damage_boost",
     "control"
-  ],
-  "description": "TODO: Rank information needed"
+  ]
 }

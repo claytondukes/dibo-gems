@@ -124,8 +124,6 @@ class LockInfo(BaseModel):
     """Information about a lock."""
     user_email: str = Field(..., description="Email of the user who acquired the lock")
     user_name: str = Field(..., description="Name of the user who acquired the lock")
-    locked_at: str = Field(..., description="Timestamp when the lock was acquired")
-    expires_at: str = Field(..., description="Timestamp when the lock expires")
 
     class Config:
         extra = "allow"
@@ -206,23 +204,18 @@ async def acquire_lock(
         try:
             with open(lock_path, 'r') as f:
                 lock_info = json.load(f)
-                expires_at = datetime.fromisoformat(lock_info['expires_at'])
-                if expires_at > datetime.now():
-                    raise HTTPException(
-                        status_code=423,
-                        detail=f"Gem is currently being edited by {lock_info['user_name']} (expires in {(expires_at - datetime.now()).seconds} seconds)"
-                    )
-        except (json.JSONDecodeError, KeyError, ValueError):
+                raise HTTPException(
+                    status_code=423,
+                    detail=f"Gem is currently being edited by {lock_info['user_name']}"
+                )
+        except (json.JSONDecodeError, KeyError):
             # Invalid lock file, we can overwrite it
             pass
     
     # Create lock
-    now = datetime.now()
     lock_info = LockInfo(
         user_email=current_user.email,
-        user_name=current_user.name,
-        locked_at=now.isoformat(),
-        expires_at=(now + timedelta(minutes=5)).isoformat()
+        user_name=current_user.name
     )
     
     # Save lock
@@ -248,25 +241,21 @@ async def release_lock(
     gem_dir = os.path.join(DATA_DIR, star_rating)
     lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
     
-    # Check if file exists
-    if not os.path.exists(lock_path):
-        raise HTTPException(status_code=404, detail="Lock not found")
-    
-    # Check if user owns the lock
-    try:
-        with open(lock_path, 'r') as f:
-            lock_info = json.load(f)
-            if lock_info['user_email'] != current_user.email:
-                raise HTTPException(
-                    status_code=403,
-                    detail="You don't own this lock"
-                )
-    except (json.JSONDecodeError, KeyError):
-        # Invalid lock file, we can delete it
-        pass
-    
-    # Delete lock
-    os.remove(lock_path)
+    # Check if file exists and belongs to user
+    if os.path.exists(lock_path):
+        try:
+            with open(lock_path, 'r') as f:
+                lock_info = json.load(f)
+                if lock_info['user_email'] != current_user.email:
+                    raise HTTPException(
+                        status_code=403,
+                        detail="You don't own this lock"
+                    )
+                os.remove(lock_path)
+        except (json.JSONDecodeError, KeyError):
+            # Invalid lock file, just remove it
+            os.remove(lock_path)
+    # If lock doesn't exist, that's fine - nothing to do
 
 @app.get("/gems/locks")
 async def get_locks() -> Dict[str, LockInfo]:
@@ -285,31 +274,12 @@ async def get_locks() -> Dict[str, LockInfo]:
             try:
                 with open(lock_file, 'r') as f:
                     lock_data = json.load(f)
-                    # Convert stored timestamps to datetime for comparison
-                    expires_at = datetime.fromisoformat(lock_data['expires_at'])
-                    if expires_at > datetime.now():
-                        # Lock is still valid, add it to response
-                        gem_name = lock_file.stem  # filename without extension
-                        star_rating = star_dir.name[0]  # first character of directory name
-                        gem_path = f"{star_rating}-{gem_name}"
-                        lock_info = LockInfo(**lock_data)
-                        locks[gem_path] = lock_info
-                        
-                        # Update in-memory lock if needed
-                        if gem_path not in active_locks or active_locks[gem_path].expires_at < expires_at:
-                            active_locks[gem_path] = EditLock(
-                                user_email=lock_data['user_email'],
-                                user_name=lock_data['user_name'],
-                                locked_at=datetime.fromisoformat(lock_data['locked_at']),
-                                expires_at=expires_at
-                            )
-                    else:
-                        # Lock has expired, remove the file
-                        lock_file.unlink()
-                        # Also remove from in-memory locks if present
-                        if lock_file.stem in active_locks:
-                            del active_locks[lock_file.stem]
-            except (json.JSONDecodeError, KeyError, ValueError, OSError):
+                    gem_name = lock_file.stem  # filename without extension
+                    star_rating = star_dir.name[0]  # first character of directory name
+                    gem_path = f"{star_rating}-{gem_name}"
+                    lock_info = LockInfo(**lock_data)
+                    locks[gem_path] = lock_info
+            except (json.JSONDecodeError, KeyError):
                 # Invalid lock file, try to remove it
                 try:
                     lock_file.unlink()
@@ -366,17 +336,42 @@ def get_gem(gem_path: str) -> Gem:
 @app.put("/gems/{gem_path:path}", response_model=Gem)
 async def update_gem(gem_path: str, gem: Gem, current_user: UserInfo = Depends(get_current_user)):
     """Update a specific gem."""
+    # Extract star rating and convert name to snake case
+    if not gem_path[0].isdigit():
+        raise HTTPException(status_code=400, detail="Invalid gem path format")
+    
+    star_rating = f"{gem_path[0]}star"
+    gem_name = convert_to_snake_case(gem_path.split('/')[-1])
+    
+    # Build paths
+    gem_dir = os.path.join(DATA_DIR, star_rating)
+    lock_path = os.path.join(gem_dir, f"{gem_name}.lock")
+    
     # Check if user has the lock
-    if gem_path not in active_locks or active_locks[gem_path].user_email != current_user.email:
+    if not os.path.exists(lock_path):
         raise HTTPException(
             status_code=403,
             detail="You must acquire a lock before editing this gem"
         )
     
     try:
-        # Convert the path to snake_case
-        file_name = convert_to_snake_case(gem_path)
-        file_path = Path(f"data/gems/{file_name}.json")
+        with open(lock_path, 'r') as f:
+            lock_info = json.load(f)
+            if lock_info['user_email'] != current_user.email:
+                raise HTTPException(
+                    status_code=403,
+                    detail="You don't own the lock for this gem"
+                )
+    except (json.JSONDecodeError, KeyError):
+        # Invalid lock file
+        raise HTTPException(
+            status_code=403,
+            detail="Lock file is invalid. Please try acquiring the lock again."
+        )
+    
+    try:
+        # Build file path
+        file_path = Path(os.path.join(gem_dir, f"{gem_name}.json"))
         
         # Ensure the gem exists
         if not file_path.exists():
@@ -384,7 +379,7 @@ async def update_gem(gem_path: str, gem: Gem, current_user: UserInfo = Depends(g
         
         # Save the gem
         save_gem(file_path, gem)
-        return {"status": "success", "message": "Gem updated successfully"}
+        return gem
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:

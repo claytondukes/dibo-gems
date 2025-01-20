@@ -130,10 +130,6 @@ export const releaseLock = async (gemPath: string) => {
 export const updateGem = async (stars: number, name: string, gem: Gem): Promise<Gem> => {
   try {
     console.log('Updating gem...');
-    // First try to acquire the lock
-    await acquireLock(`${stars}-${name}`);
-    
-    // Then update the gem
     const response = await api.put(`/gems/${stars}-${name}`, gem);
     console.log('Gem updated:', response.data);
     return response.data;
@@ -175,8 +171,6 @@ export const exportGems = async () => {
 export interface LockInfo {
   user_email: string;
   user_name: string;
-  locked_at: string;
-  expires_at: string;
 }
 
 export const getLocks = async (): Promise<Record<string, LockInfo>> => {

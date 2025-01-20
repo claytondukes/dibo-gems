@@ -15,7 +15,6 @@ import {
   TagLeftIcon,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon, LockIcon, EditIcon } from '@chakra-ui/icons';
-import { FaClock } from 'react-icons/fa';
 import { GemListItem } from '../../types/gem';
 import { useState } from 'react';
 import { acquireLock } from '../../services/api';
@@ -86,13 +85,6 @@ export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
     }
   };
 
-  // Calculate time remaining if locked
-  const getTimeRemaining = (expiresAt: string) => {
-    const remaining = new Date(expiresAt).getTime() - new Date().getTime();
-    const minutes = Math.max(0, Math.floor(remaining / (1000 * 60)));
-    return `${minutes} min${minutes !== 1 ? 's' : ''}`;
-  };
-
   return (
     <Box
       borderWidth="1px"
@@ -118,9 +110,9 @@ export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
               </HStack>
               {lockInfo && (
                 <Tag size="sm" colorScheme="red" borderRadius="full">
-                  <TagLeftIcon as={FaClock} />
+                  <TagLeftIcon as={LockIcon} />
                   <TagLabel>
-                    Editing: {lockInfo.user_name} ({getTimeRemaining(lockInfo.expires_at)})
+                    Being edited by {lockInfo.user_name}
                   </TagLabel>
                 </Tag>
               )}
