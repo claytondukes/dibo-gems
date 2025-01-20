@@ -130,7 +130,8 @@ export const releaseLock = async (gemPath: string) => {
 export const updateGem = async (stars: number, name: string, gem: Gem): Promise<Gem> => {
   try {
     console.log('Updating gem...');
-    const response = await api.put(`/gems/${stars}-${name}`, gem);
+    const snakeCaseName = toSnakeCase(name);
+    const response = await api.put(`/gems/${stars}-${snakeCaseName}`, gem);
     console.log('Gem updated:', response.data);
     return response.data;
   } catch (error) {

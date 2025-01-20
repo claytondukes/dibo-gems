@@ -37,9 +37,9 @@ COPY --from=builder /app/package*.json ./
 RUN npm install
 
 # Create non-root user
-RUN useradd -m appuser && \
-    chown -R appuser:appuser /app
-USER appuser
+#RUN useradd -m appuser && \
+    #chown -R appuser:appuser data
+#USER appuser
 
 # Expose port
 EXPOSE ${FRONTEND_PORT}
