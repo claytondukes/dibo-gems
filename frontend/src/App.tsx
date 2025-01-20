@@ -18,7 +18,7 @@ import { GemCard } from './components/GemList/GemCard';
 import { FilterBar } from './components/GemList/FilterBar';
 import { Modal } from './components/common/Modal';
 import { GemForm } from './components/GemEditor/GemForm';
-import { getGems, getGem, updateGem, getLocks, releaseLock, LockInfo } from './services/api';
+import { getGems, getGem, updateGem } from './services/api';
 import { Gem, GemListItem } from './types/gem';
 import { theme } from './theme';
 import { LoginButton } from './components/common/LoginButton';
@@ -50,28 +50,11 @@ function AppContent() {
     getGems
   );
 
-  // Fetch locks only when needed
-  const { data: locks = {}, refetch: refetchLocks } = useQuery<Record<string, LockInfo>>(
-    'locks',
-    getLocks,
-    {
-      enabled: false, // Don't fetch automatically
-    }
-  );
-
   const updateGemMutation = useMutation(
     ({ stars, name, gem }: { stars: number; name: string; gem: Gem }) =>
       updateGem(stars, name, gem),
     {
       onSuccess: async () => {
-        if (selectedGem) {
-          try {
-            await releaseLock(`${selectedGem.stars}-${selectedGem.name}`);
-            queryClient.invalidateQueries('locks');
-          } catch (error) {
-            console.error('Error releasing lock:', error);
-          }
-        }
         queryClient.invalidateQueries('gems');
         onClose();
         setSelectedGem(null);
@@ -96,8 +79,6 @@ function AppContent() {
 
   const handleGemClick = async (gem: GemListItem) => {
     try {
-      // Fetch latest locks before attempting to edit
-      await refetchLocks();
       const fullGem = await getGem(gem.stars, gem.name);
       setSelectedGem(fullGem);
       onOpen();
@@ -122,7 +103,7 @@ function AppContent() {
     });
   };
 
-  const handleCloseEditor = async () => {
+  const handleCloseEditor = () => {
     setSelectedGem(null);
     onClose();
   };
@@ -187,7 +168,6 @@ function AppContent() {
                 key={`${gem.stars}-${gem.name}`}
                 gem={gem}
                 onEdit={() => handleGemClick(gem)}
-                lockInfo={locks[`${gem.stars}-${gem.name}`]}
               />
             ))
           )}
@@ -198,14 +178,10 @@ function AppContent() {
         <Modal
           isOpen={isOpen}
           onClose={handleCloseEditor}
-          onConfirm={() => handleSaveGem(selectedGem!)}
-          title={selectedGem ? `Edit ${selectedGem.name}` : 'Edit Gem'}
-          size="4xl"
+          onConfirm={() => handleSaveGem(selectedGem)}
+          title={`Edit ${selectedGem.name}`}
         >
-          <GemForm
-            gem={selectedGem}
-            onSubmit={handleSaveGem}
-          />
+          <GemForm gem={selectedGem} onChange={setSelectedGem} />
         </Modal>
       )}
     </Container>
@@ -215,11 +191,11 @@ function AppContent() {
 // Main App component with providers
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
         <AppContent />
-      </ChakraProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </ChakraProvider>
   );
 }
 

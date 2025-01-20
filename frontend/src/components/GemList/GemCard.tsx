@@ -10,21 +10,15 @@ import {
   IconButton,
   Collapse,
   useToast,
-  Tag,
-  TagLabel,
-  TagLeftIcon,
 } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronUpIcon, LockIcon, EditIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '@chakra-ui/icons';
 import { GemListItem } from '../../types/gem';
 import { useState } from 'react';
-import { acquireLock } from '../../services/api';
 import { isAuthenticated } from '../../services/auth';
-import { LockInfo } from '../../services/api';
 
 interface GemCardProps {
   gem: GemListItem;
   onEdit: () => void;
-  lockInfo?: LockInfo;
 }
 
 const getGemColors = (stars: number) => {
@@ -50,7 +44,7 @@ const getGemColors = (stars: number) => {
   }
 };
 
-export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
+export const GemCard = ({ gem, onEdit }: GemCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const toast = useToast();
   const colors = getGemColors(gem.stars);
@@ -69,27 +63,14 @@ export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
       return;
     }
 
-    try {
-      await acquireLock(`${gem.stars}-${gem.name}`);
-      onEdit();
-    } catch (error) {
-      if (error instanceof Error) {
-        toast({
-          title: "Gem is Locked",
-          description: error.message,
-          status: "warning",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }
+    onEdit();
   };
 
   return (
     <Box
       borderWidth="1px"
       borderRadius="lg"
-      borderColor={lockInfo ? 'red.300' : borderColor}
+      borderColor={borderColor}
       overflow="hidden"
       bg={bgColor}
       position="relative"
@@ -108,27 +89,19 @@ export const GemCard = ({ gem, onEdit, lockInfo }: GemCardProps) => {
                   {gem.stars}★
                 </Badge>
               </HStack>
-              {lockInfo && (
-                <Tag size="sm" colorScheme="red" borderRadius="full">
-                  <TagLeftIcon as={LockIcon} />
-                  <TagLabel>
-                    Being edited by {lockInfo.user_name}
-                  </TagLabel>
-                </Tag>
-              )}
             </VStack>
             <HStack>
               <Tooltip 
-                label={lockInfo ? `Currently being edited by ${lockInfo.user_name}` : "Edit gem"}
+                label="Edit gem"
                 placement="top"
               >
                 <IconButton
-                  icon={lockInfo ? <LockIcon /> : <EditIcon />}
+                  icon={<EditIcon />}
                   aria-label="Edit gem"
                   size="sm"
                   onClick={handleEdit}
-                  colorScheme={lockInfo ? "red" : "blue"}
-                  variant={lockInfo ? "outline" : "solid"}
+                  colorScheme="blue"
+                  variant="solid"
                 />
               </Tooltip>
               <IconButton
