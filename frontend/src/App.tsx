@@ -180,6 +180,7 @@ function AppContent() {
           onClose={handleCloseEditor}
           onConfirm={() => handleSaveGem(selectedGem)}
           title={`Edit ${selectedGem.name}`}
+          size="6xl"
         >
           <GemForm gem={selectedGem} onChange={setSelectedGem} />
         </Modal>
